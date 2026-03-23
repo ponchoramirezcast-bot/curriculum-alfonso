@@ -279,9 +279,8 @@
         }
 
         /* ANIMATIONS */
-        .fade-up { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
-        .js-ready .fade-up { opacity: 0; transform: translateY(20px); }
-        .fade-up.visible { opacity: 1 !important; transform: none !important; }
+        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+        .fade-up.visible { opacity: 1; transform: none; }
     </style>
 </head>
 <body>
@@ -591,9 +590,6 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Mark JS as ready so fade-up animation activates
-    document.body.classList.add('js-ready');
-
     // Fade-up animation
     const fadeObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
