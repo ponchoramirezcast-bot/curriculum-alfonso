@@ -279,8 +279,9 @@
         }
 
         /* ANIMATIONS */
-        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
-        .fade-up.visible { opacity: 1; transform: none; }
+        .fade-up { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+        .js-ready .fade-up { opacity: 0; transform: translateY(20px); }
+        .fade-up.visible { opacity: 1 !important; transform: none !important; }
     </style>
 </head>
 <body>
@@ -303,7 +304,7 @@
             <p class="title-line">Ingeniero Industrial · Supervisor de Logística &amp; Manufactura · Data Science Enthusiast</p>
             <div class="contact-chips">
                 <a href="tel:4497573058" class="chip"><i class="fas fa-phone"></i> 449 757 3058</a>
-                <a href="mailto:ponchoramirezcast@gmail.com" class="chip"><i class="fas fa-envelope"></i> ponchoramirezcast@gmail.com</a>
+                <a href="/cdn-cgi/l/email-protection#abdbc4c5c8c3c4d9cac6c2d9ced1c8cad8dfebccc6cac2c785c8c4c6" class="chip"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="9aeaf5f4f9f2f5e8fbf7f3e8ffe0f9fbe9eedafdf7fbf3f6b4f9f5f7">[email&#160;protected]</span></a>
                 <span class="chip"><i class="fas fa-map-marker-alt"></i> Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.</span>
                 <a href="https://wa.me/524497573058" class="chip green" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 <a href="https://alfonso-ramirez-cv.netlify.app" class="chip amber" target="_blank"><i class="fas fa-globe"></i> CV Online</a>
@@ -512,6 +513,14 @@
                 <span class="tech-tag">HTML</span><span class="tech-tag">JavaScript</span><span class="tech-tag">CSS</span><span class="tech-tag">LocalStorage</span><span class="tech-tag">UX Design</span>
             </div>
         </div>
+        <div class="project-card amber">
+            <div class="project-name">🎵 Poncho Records — Sello Discográfico Personal</div>
+            <div class="project-desc">Proyecto musical personal donde Alfonso compone y dirige cada track, usando Inteligencia Artificial como herramienta de producción sonora. Poncho Records abarca géneros que van del metal al ambient y las fusiones latinas, con música curada y masterizada con tecnología de vanguardia. Incluye discografía propia, integración con Spotify y está abierto a colaboraciones y licencias.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">JavaScript</span><span class="tech-tag">HTML/CSS</span><span class="tech-tag">Spotify API</span><span class="tech-tag">AI Music Production</span><span class="tech-tag">GitHub Pages</span>
+            </div>
+            <a href="https://ponchoramirezcast-bot.github.io/poncho-records/" class="project-link amber" target="_blank"><i class="fas fa-external-link-alt"></i> Ver proyecto</a>
+        </div>
     </div>
 
     <!-- 7. Logros Destacados -->
@@ -566,7 +575,7 @@
         <h2 class="section-title"><i class="fas fa-address-card"></i> Contacto</h2>
         <div class="contact-grid">
             <a href="tel:4497573058" class="contact-item"><i class="fas fa-phone"></i> 449 757 3058</a>
-            <a href="mailto:ponchoramirezcast@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> ponchoramirezcast@gmail.com</a>
+            <a href="/cdn-cgi/l/email-protection#1d6d72737e75726f7c70746f78677e7c6e695d7a707c7471337e7270" class="contact-item"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="45352a2b262d2a3724282c37203f26243631052228242c296b262a28">[email&#160;protected]</span></a>
             <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.</div>
             <a href="https://wa.me/524497573058" class="contact-item green" target="_blank"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</a>
             <a href="https://alfonso-ramirez-cv.netlify.app" class="contact-item" target="_blank"><i class="fas fa-globe"></i> alfonso-ramirez-cv.netlify.app</a>
@@ -581,7 +590,10 @@
     <span style="font-size:11px;">© 2026 · Todos los derechos reservados</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Mark JS as ready so fade-up animation activates
+    document.body.classList.add('js-ready');
+
     // Fade-up animation
     const fadeObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
@@ -594,14 +606,4 @@
     document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
 
     // Skill bars animation
-    const skillObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.querySelectorAll('.skill-fill').forEach(bar => {
-                    bar.style.width = bar.dataset.w + '%';
-                });
-            }
-        });
-    }, { threshold: 0.3 });
-    document.querySelectorAll('.card').forEach(c => skillObs.observe(c));
-</script>
+    const skillObs
