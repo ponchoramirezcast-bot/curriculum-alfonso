@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="José Alfonso Ramírez Castañeda — Ingeniero Industrial con 12+ años liderando operaciones logísticas y de manufactura en Nissan y COMPAS.">
+    <title>José Alfonso Ramírez Castañeda | Ing. Industrial · Logística · Data Science</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy:    #0b1628;
+            --navy2:   #132040;
+            --blue:    #1d4ed8;
+            --blue-lt: #3b82f6;
+            --amber:   #f59e0b;
+            --amber-lt:#fde68a;
+            --slate:   #64748b;
+            --light:   #f1f5f9;
+            --white:   #ffffff;
+            --green:   #10b981;
+            --radius:  14px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--navy);
+            line-height: 1.6;
+            background-color: #0b1628;
+            background-image:
+                linear-gradient(rgba(59,130,246,.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,.07) 1px, transparent 1px),
+                linear-gradient(rgba(59,130,246,.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,.03) 1px, transparent 1px),
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(29,78,216,.25) 0%, transparent 65%),
+                radial-gradient(ellipse 40% 40% at 95% 80%, rgba(245,158,11,.12) 0%, transparent 60%);
+            background-size:
+                60px 60px,
+                60px 60px,
+                12px 12px,
+                12px 12px,
+                100% 100%,
+                100% 100%;
+            background-attachment: fixed;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 0;
+            background-image:
+                radial-gradient(circle 2px at 15% 25%, rgba(59,130,246,.4) 0%, transparent 100%),
+                radial-gradient(circle 1.5px at 75% 15%, rgba(245,158,11,.5) 0%, transparent 100%),
+                radial-gradient(circle 2px at 85% 55%, rgba(59,130,246,.3) 0%, transparent 100%),
+                radial-gradient(circle 1px at 35% 70%, rgba(245,158,11,.4) 0%, transparent 100%),
+                radial-gradient(circle 1.5px at 55% 85%, rgba(59,130,246,.3) 0%, transparent 100%),
+                radial-gradient(circle 2px at 8% 60%, rgba(16,185,129,.3) 0%, transparent 100%),
+                radial-gradient(circle 1px at 92% 35%, rgba(16,185,129,.4) 0%, transparent 100%);
+        }
+        body::after {
+            content: 'LOGISTICS · DATA SCIENCE · SUPPLY CHAIN · KPI · JIT · LEAN · AI · WMS · 5S · ERP · MRP · KAIZEN · MANUFACTURING';
+            position: fixed; bottom: 28px; left: 0; right: 0;
+            text-align: center; font-size: 10px; font-weight: 700;
+            letter-spacing: .35em; color: rgba(59,130,246,.09);
+            pointer-events: none; z-index: 0;
+            white-space: nowrap; overflow: hidden;
+        }
+        header, .stats-bar, .page, footer { position: relative; z-index: 1; }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, #1a3a6e 100%);
+            position: relative; overflow: hidden; padding: 52px 0 64px;
+        }
+        header::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(59,130,246,.18) 0%, transparent 70%);
+        }
+        .header-geo { position: absolute; top: -40px; right: -40px; width: 320px; height: 320px; border: 2px solid rgba(255,255,255,.07); border-radius: 50%; }
+        .header-geo2 { position: absolute; bottom: -60px; left: -60px; width: 220px; height: 220px; border: 2px solid rgba(245,158,11,.12); border-radius: 50%; }
+        .header-inner { max-width: 900px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; display: flex; align-items: center; gap: 36px; }
+        .avatar-ring { flex-shrink: 0; width: 140px; height: 140px; border-radius: 50%; padding: 4px; background: linear-gradient(135deg, var(--amber), var(--blue-lt)); box-shadow: 0 0 40px rgba(59,130,246,.35); }
+        .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: contain; object-position: center; background: #0d1e3d; border: 3px solid var(--navy); }
+        .header-text { flex: 1; color: var(--white); }
+        .header-badge { display: inline-block; background: rgba(245,158,11,.2); border: 1px solid rgba(245,158,11,.4); color: var(--amber-lt); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 10px; }
+        h1.name { font-family: 'DM Serif Display', serif; font-size: clamp(26px, 4vw, 42px); line-height: 1.1; margin-bottom: 6px; }
+        .title-line { font-size: clamp(13px, 1.4vw, 16px); color: rgba(255,255,255,.75); font-weight: 400; margin-bottom: 18px; }
+        .contact-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); backdrop-filter: blur(8px); color: rgba(255,255,255,.9); padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: .2s; }
+        .chip:hover { background: rgba(255,255,255,.2); }
+        .chip.green { background: rgba(16,185,129,.25); border-color: rgba(16,185,129,.4); color: #6ee7b7; }
+        .chip.amber { background: rgba(245,158,11,.2); border-color: rgba(245,158,11,.35); color: #fde68a; }
+
+        /* STATS */
+        .stats-bar { max-width: 900px; margin: -28px auto 0; padding: 0 32px; position: relative; z-index: 10; }
+        .stats-inner { background: var(--white); border-radius: var(--radius); box-shadow: 0 8px 40px rgba(11,22,40,.15); display: grid; grid-template-columns: repeat(5, 1fr); overflow: hidden; }
+        .stat { padding: 18px; text-align: center; border-right: 1px solid #e2e8f0; }
+        .stat:last-child { border-right: none; }
+        .stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--blue); line-height: 1; }
+        .stat-num.amber { color: var(--amber); }
+        .stat-label { font-size: 11px; color: var(--slate); font-weight: 500; margin-top: 4px; }
+
+        /* LAYOUT */
+        .page { max-width: 900px; margin: 32px auto 60px; padding: 0 32px; display: flex; flex-direction: column; gap: 24px; }
+
+        /* CARDS */
+        .card { background: var(--white); border-radius: var(--radius); box-shadow: 0 2px 20px rgba(11,22,40,.07); padding: 28px 32px; }
+        .section-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--blue); font-size: 16px; }
+
+        /* EDUCACION */
+        .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 14px; }
+        .edu-item { padding-left: 14px; border-left: 3px solid var(--blue); }
+        .edu-item.amber { border-color: var(--amber); }
+        .edu-title { font-weight: 700; font-size: 14px; color: var(--navy); }
+        .edu-inst { font-size: 13px; color: var(--blue); font-weight: 600; }
+        .edu-inst.amber { color: var(--amber); }
+        .edu-year { font-size: 12px; color: var(--slate); }
+
+        /* PROFILE */
+        .profile-text { font-size: 15px; color: #334155; line-height: 1.75; }
+        .profile-text strong { color: var(--blue); font-weight: 600; }
+        .highlight { background: linear-gradient(120deg, #dbeafe 0%, #ede9fe 100%); padding: 2px 8px; border-radius: 6px; font-weight: 600; color: #1e40af; }
+
+        /* TIMELINE */
+        .timeline { position: relative; }
+        .timeline::before { content: ''; position: absolute; left: 22px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--blue), var(--amber)); }
+        .job { position: relative; padding-left: 60px; margin-bottom: 28px; }
+        .job:last-child { margin-bottom: 0; }
+        .job-dot { position: absolute; left: 14px; top: 6px; width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--blue); background: var(--white); box-shadow: 0 0 0 4px rgba(59,130,246,.12); }
+        .job-dot.amber { border-color: var(--amber); box-shadow: 0 0 0 4px rgba(245,158,11,.12); }
+        .job-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+        .job-title { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--navy); }
+        .job-company { font-size: 13px; font-weight: 600; color: var(--blue); margin: 2px 0; }
+        .job-sub { font-size: 12px; color: var(--slate); }
+        .date-badge { background: var(--light); color: var(--slate); font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; }
+        .date-badge.current { background: #dcfce7; color: #166534; }
+        .date-badge.amber { background: #fef3c7; color: #92400e; }
+        .job-bullets { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+        .bullet { display: flex; gap: 10px; font-size: 13.5px; color: #475569; line-height: 1.55; }
+        .bullet i { color: var(--green); margin-top: 2px; flex-shrink: 0; font-size: 11px; }
+        .bullet i.star { color: var(--amber); font-size: 12px; }
+        .bullet i.team { color: var(--blue-lt); font-size: 12px; }
+        .logro-pill { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(90deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; color: #92400e; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 100px; letter-spacing: .03em; }
+        .metric-tag { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+
+        /* CERT GRID */
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+        .cert-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 12px; }
+        .cert-item i { color: var(--amber); margin-top: 1px; flex-shrink: 0; }
+        .cert-name { font-weight: 700; color: var(--navy); }
+        .cert-org { color: var(--slate); font-size: 11px; }
+        .cert-item.green { background: #f0fdf4; border-color: #bbf7d0; }
+        .cert-item.green i { color: #16a34a; }
+
+        /* PROYECTOS */
+        .project-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; position: relative; overflow: hidden; transition: .25s; }
+        .project-card:last-child { margin-bottom: 0; }
+        .project-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--blue); }
+        .project-card:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(29,78,216,.12); }
+        .project-card.amber::before { background: var(--amber); }
+        .project-name { font-weight: 700; font-size: 14px; color: var(--navy); }
+        .project-desc { font-size: 12.5px; color: #475569; margin: 4px 0 8px; line-height: 1.5; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+        .tech-tag { background: #f1f5f9; color: #475569; font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 5px; border: 1px solid #e2e8f0; }
+        .project-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11.5px; font-weight: 600; color: var(--blue); text-decoration: none; border: 1px solid #bfdbfe; background: #eff6ff; padding: 3px 10px; border-radius: 5px; transition: .2s; }
+        .project-link:hover { background: var(--blue); color: #fff; }
+        .project-link.amber { color: #92400e; border-color: #fde68a; background: #fffbeb; }
+        .project-link.amber:hover { background: var(--amber); color: #fff; }
+
+        /* LOGROS */
+        .logros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+        .logro-item { background: linear-gradient(135deg, var(--navy) 0%, #1e3a7e 100%); border-radius: 12px; padding: 16px 18px; color: var(--white); display: flex; gap: 12px; align-items: flex-start; font-size: 13px; line-height: 1.5; }
+        .logro-item i { color: var(--amber); margin-top: 2px; flex-shrink: 0; font-size: 16px; }
+
+        /* HABILIDADES */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px 32px; }
+        .skill-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+        .skill-pct { color: var(--blue); }
+        .skill-track { height: 7px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+        .skill-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--blue-lt)); width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+
+        /* COMPETENCIAS */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: var(--light); border: 1px solid #cbd5e1; color: #334155; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 6px; }
+        .tag.blue  { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+        .tag.green { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+        .tag.amber { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+
+        /* CONTACTO */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+        .contact-item { display: flex; align-items: center; gap: 12px; background: var(--navy); border-radius: 10px; padding: 14px 16px; text-decoration: none; color: rgba(255,255,255,.85); font-size: 13px; transition: .2s; }
+        .contact-item:hover { background: #1e3a7e; color: var(--white); }
+        .contact-item i { color: var(--blue-lt); font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+        .contact-item.green i { color: #4ade80; }
+
+        /* FLOAT BUTTONS */
+        .float-btn { position: fixed; width: 52px; height: 52px; right: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 20px rgba(0,0,0,.3); z-index: 999; transition: .25s; text-decoration: none; cursor: pointer; border: none; }
+        .float-btn:hover { transform: scale(1.1); }
+        .float-wa  { bottom: 88px; background: #25d366; color: white; }
+        .float-pdf { bottom: 24px; background: #dc2626; color: white; }
+
+        /* FOOTER */
+        footer { background: var(--navy); color: rgba(255,255,255,.5); text-align: center; padding: 28px; font-size: 12px; }
+        footer strong { color: rgba(255,255,255,.8); }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            .header-inner { flex-direction: column; text-align: center; }
+            .contact-chips { justify-content: center; }
+            .page { padding: 0 16px; }
+            .card { padding: 20px; }
+            .stats-inner { grid-template-columns: repeat(3, 1fr); }
+            .cert-grid, .logros-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        /* PRINT / PDF */
+        @media print {
+            .float-btn, footer { display: none !important; }
+            body {
+                background: white !important;
+                background-image: none !important;
+                background-color: white !important;
+            }
+            body::before, body::after { display: none !important; }
+            header { padding: 22px 0 30px; }
+            h1.name { font-size: 22px; }
+            .title-line { font-size: 12px; }
+            .chip { font-size: 10px; padding: 4px 10px; }
+            .stats-bar { margin-top: -12px; padding: 0 20px; }
+            .stat { padding: 10px 8px; }
+            .stat-num { font-size: 20px; }
+            .stat-label { font-size: 10px; }
+            .page { margin: 12px auto; gap: 10px; padding: 0 20px; }
+            /* SIN page-break-inside en .card para evitar espacios en blanco */
+            .card { box-shadow: none !important; border: 1px solid #e2e8f0; padding: 12px 16px; }
+            /* Solo elementos internos pequeños no se cortan */
+            .job          { page-break-inside: avoid; break-inside: avoid; }
+            .project-card { page-break-inside: avoid; break-inside: avoid; }
+            .cert-item    { page-break-inside: avoid; break-inside: avoid; }
+            .logro-item   { page-break-inside: avoid; break-inside: avoid; }
+            /* Título nunca queda solo al final de página */
+            .section-title { page-break-after: avoid; break-after: avoid; font-size: 14px; margin-bottom: 8px; }
+            /* Tipografía compacta */
+            .profile-text  { font-size: 11.5px; line-height: 1.5; }
+            .bullet        { font-size: 11px; gap: 7px; }
+            .job-title     { font-size: 13px; }
+            .job-company   { font-size: 11.5px; }
+            .job-sub       { font-size: 10.5px; }
+            .date-badge    { font-size: 10px; padding: 3px 8px; }
+            .logro-pill    { font-size: 10px; padding: 2px 7px; }
+            .metric-tag    { font-size: 10px; padding: 1px 6px; }
+            .logro-item    { font-size: 11px; padding: 9px 11px; gap: 8px; }
+            .logro-item i  { font-size: 13px; }
+            .cert-item     { font-size: 11px; padding: 8px 10px; }
+            .cert-name     { font-size: 11px; }
+            .cert-org      { font-size: 10px; }
+            .project-name  { font-size: 12.5px; }
+            .project-desc  { font-size: 11px; }
+            .tech-tag      { font-size: 9.5px; }
+            .skill-header  { font-size: 11.5px; }
+            .tag           { font-size: 10.5px; padding: 3px 8px; }
+            .edu-title     { font-size: 12px; }
+            .edu-inst      { font-size: 11px; }
+            .edu-year      { font-size: 10.5px; }
+            /* Grids más compactos */
+            .cert-grid    { grid-template-columns: repeat(3, 1fr); gap: 7px; }
+            .logros-grid  { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .skills-grid  { grid-template-columns: repeat(3, 1fr); gap: 10px 24px; }
+            .edu-grid     { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            /* Jobs más compactos */
+            .job { margin-bottom: 14px; padding-left: 44px; }
+            .job-dot { left: 10px; width: 14px; height: 14px; }
+            .timeline::before { left: 16px; }
+            .job-bullets { gap: 5px; margin-top: 8px; }
+            .project-card { padding: 10px 12px; margin-bottom: 8px; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+
+        /* ANIMATIONS */
+        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+        .fade-up.visible { opacity: 1; transform: none; }
+    </style>
+</head>
+<body>
+
+<a href="https://wa.me/524497573058?text=Hola%20Alfonso,%20vi%20tu%20CV%20y%20me%20interesa%20contactarte" class="float-btn float-wa" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<button onclick="window.print()" class="float-btn float-pdf" title="Descargar PDF"><i class="fas fa-file-pdf"></i></button>
+
+<!-- HEADER -->
+<header>
+    <div class="header-geo"></div>
+    <div class="header-geo2"></div>
+    <div class="header-inner">
+        <div class="avatar-ring">
+            <img src="1000060306.jpg" alt="José Alfonso Ramírez Castañeda"
+                 onerror="this.src='https://ui-avatars.com/api/?name=José+Alfonso+Ramírez&background=1d4ed8&color=fff&size=256'">
+        </div>
+        <div class="header-text">
+            <div class="header-badge">&#x25CF;&nbsp; Disponible para nuevas oportunidades</div>
+            <h1 class="name">José Alfonso Ramírez Castañeda</h1>
+            <p class="title-line">Ingeniero Industrial · Supervisor de Logística &amp; Manufactura · Data Science Enthusiast</p>
+            <div class="contact-chips">
+                <a href="tel:4497573058" class="chip"><i class="fas fa-phone"></i> 449 757 3058</a>
+                <a href="mailto:ponchoramirezcast@gmail.com" class="chip"><i class="fas fa-envelope"></i> ponchoramirezcast@gmail.com</a>
+                <span class="chip"><i class="fas fa-map-marker-alt"></i> Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.</span>
+                <a href="https://wa.me/524497573058" class="chip green" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://alfonso-ramirez-cv.netlify.app" class="chip amber" target="_blank"><i class="fas fa-globe"></i> CV Online</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Años de Experiencia</div></div>
+        <div class="stat"><div class="stat-num">34+</div><div class="stat-label">Personas Lideradas</div></div>
+        <div class="stat"><div class="stat-num amber">3</div><div class="stat-label">Empresas Líderes</div></div>
+        <div class="stat"><div class="stat-num">6</div><div class="stat-label">Proyectos Tech Propios</div></div>
+        <div class="stat"><div class="stat-num">80%</div><div class="stat-label">Inglés Técnico</div></div>
+    </div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="page">
+
+    <!-- 1. Educación -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Educación</h2>
+        <div class="edu-grid">
+            <div class="edu-item">
+                <div class="edu-title">Lic. en Ingeniería Industrial</div>
+                <div class="edu-inst">Instituto Tecnológico de Aguascalientes</div>
+                <div class="edu-year">Generación 2001 – 2005</div>
+            </div>
+            <div class="edu-item amber">
+                <div class="edu-title">Data Science &amp; AI — En formación</div>
+                <div class="edu-inst amber">Autodidacta + Plataformas Online</div>
+                <div class="edu-year">2024 – Presente</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Perfil Profesional -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-user-tie"></i> Perfil Profesional</h2>
+        <p class="profile-text">
+            Ingeniero Industrial con <strong>más de 12 años de experiencia</strong> liderando operaciones de logística,
+            administración de almacenes y manufactura en empresas transnacionales de clase mundial como
+            <strong>Nissan Mexicana</strong> y <strong>COMPAS Manufacturing</strong>. Especialista en
+            <span class="highlight">control de inventarios, lean manufacturing y abastecimiento JIT</span>
+            para líneas de producción automotrices de alto volumen.
+        </p>
+        <p class="profile-text" style="margin-top:12px;">
+            Actualmente en transición activa hacia <strong>Data Science e Inteligencia Artificial</strong>,
+            con proyectos tecnológicos propios desarrollados en <strong>JavaScript, HTML, CSS y API integrations</strong>.
+            Capacidad demostrada para combinar la visión operativa del ingeniero industrial con herramientas
+            digitales que generan <span class="highlight">eficiencia medible y ventaja competitiva</span>.
+        </p>
+    </div>
+
+    <!-- 3. Experiencia Profesional -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-briefcase"></i> Experiencia Profesional</h2>
+        <div class="timeline">
+
+            <!-- COMPAS -->
+            <div class="job">
+                <div class="job-dot"></div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Supervisor de Manejo de Materiales</div>
+                        <div class="job-company">COMPAS Manufacturing</div>
+                        <div class="job-sub">Áreas: Trim &amp; Chassis · Estampado · Almacén D3</div>
+                    </div>
+                    <span class="date-badge current">Jul 2019 – Presente</span>
+                </div>
+                <div class="job-bullets">
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Administración de Almacén Estampado, recibo de materiales y supervisión de abasto a línea de producción.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Administración integral del almacén D3 y modulación de partes en zona B&amp;K para producción continua.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Supervisión de subensambles y operaciones de <em>pre-picking</em> para líneas de alta cadencia C5–C8.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i>
+                        <span>Monitoreo y mejora de KPIs críticos:
+                            <span class="metric-tag">Downtime</span>
+                            <span class="metric-tag">PPOF</span>
+                            <span class="metric-tag">DPHU</span>
+                            — reduciendo paros no programados en área.
+                        </span>
+                    </div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Implementación de controles visuales y metodología <strong>5S</strong> logrando mantenimiento sostenido del orden en almacén.</span></div>
+                </div>
+            </div>
+
+            <!-- Nissan -->
+            <div class="job">
+                <div class="job-dot"></div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Supervisor de Almacén Recibo</div>
+                        <div class="job-company">Nissan Mexicana</div>
+                        <div class="job-sub">Planta Aguascalientes — Logística de Entrada</div>
+                    </div>
+                    <span class="date-badge">Dic 2014 – May 2019</span>
+                </div>
+                <div class="job-bullets">
+                    <div class="bullet"><i class="fas fa-star star"></i>
+                        <span><span class="logro-pill"><i class="fas fa-trophy"></i> Logro Clave</span> Desarrollo e implementación de <strong>sistema de digitalización de almacenes</strong> — eliminando procesos manuales y mejorando la trazabilidad de inventario.</span>
+                    </div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Coordinación del recibo de materiales de proveedores nacionales e internacionales bajo esquema <strong>JIT/JIS</strong>.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Conciliación de recibos con área de Finanzas, asegurando cierre contable sin diferencias.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Coordinación de <strong>inventarios fiscales anuales</strong> con cero inconsistencias reportadas durante el período.</span></div>
+                    <div class="bullet"><i class="fas fa-users team"></i><span><span class="logro-pill"><i class="fas fa-users"></i> Liderazgo de 11 colaboradores</span></span></div>
+                </div>
+            </div>
+
+            <!-- Bonafont -->
+            <div class="job">
+                <div class="job-dot amber"></div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Jefe Logístico Regional</div>
+                        <div class="job-company" style="color:#d97706;">Envasadoras de Aguas (Bonafont / Danone)</div>
+                    </div>
+                    <span class="date-badge amber">Ene 2014 – Dic 2014</span>
+                </div>
+                <div class="job-bullets">
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Coordinación logística simultánea de <strong>2 plantas</strong> productivas (Aguascalientes y San Luis Potosí).</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Gestión de <strong>2 CEDIS</strong> (Zacatecas y Fresnillo) — control de stock, distribución y rotación de producto.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Planificación y control de abastecimiento de productos de temporada con variabilidad de demanda elevada.</span></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 4. Seguridad Industrial -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad</h2>
+        <div style="margin-bottom:14px;">
+            <span style="background:#dcfce7;color:#166534;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.05em;">● VIGENTES 2026</span>
+        </div>
+        <div class="cert-grid">
+            <div class="cert-item green"><i class="fas fa-fire-extinguisher"></i><div><div class="cert-name">Brigadista de Evacuación</div><div class="cert-org">2026</div></div></div>
+            <div class="cert-item green"><i class="fas fa-chair"></i><div><div class="cert-name">Ergonomía Laboral</div><div class="cert-org">2026</div></div></div>
+            <div class="cert-item green"><i class="fas fa-flask"></i><div><div class="cert-name">Manejo, Identificación, Almacenamiento y Transporte de Sustancias Químicas Peligrosas</div><div class="cert-org">2026</div></div></div>
+            <div class="cert-item green"><i class="fas fa-forklift"></i><div><div class="cert-name">Manejo Seguro de Montacargas</div><div class="cert-org">2026</div></div></div>
+            <div class="cert-item green"><i class="fas fa-truck"></i><div><div class="cert-name">Manejo Seguro de Tractor</div><div class="cert-org">2026</div></div></div>
+            <div class="cert-item green"><i class="fas fa-shield-alt"></i><div><div class="cert-name">Cumplimiento Legal de Seguridad</div><div class="cert-org">2026</div></div></div>
+            <div class="cert-item green"><i class="fas fa-globe"></i><div><div class="cert-name">ISO 45001:2018 — Gestión de Seguridad y Salud en el Trabajo</div><div class="cert-org">2024 · Actualización 2026</div></div></div>
+        </div>
+    </div>
+
+    <!-- 5. Certificaciones -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-certificate"></i> Certificaciones</h2>
+        <div class="cert-grid">
+            <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">Excel Avanzado</div><div class="cert-org">A2 Capacitaciones · 2022</div></div></div>
+            <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">5 Reglas de Oro — Admón. de Almacenes</div><div class="cert-org">Quality Training · 2012 · 12 hrs</div></div></div>
+            <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">ISO 9000 en la Pequeña Empresa</div><div class="cert-org">CONALEP · 2001 · 40 hrs</div></div></div>
+            <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">Metodología 5S</div><div class="cert-org">ITA · 2001</div></div></div>
+            <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">Bootcamp Diseño de Páginas Web</div><div class="cert-org">Inadaptados Academy · Nov – Dic 2024</div></div></div>
+        </div>
+    </div>
+
+    <!-- 6. Proyectos Tecnológicos -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-laptop-code"></i> Proyectos Tecnológicos Desarrollados</h2>
+        <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Iniciativas desarrolladas de forma autodidacta que demuestran capacidad de transición hacia roles digitales y de datos.</p>
+        <div class="project-card">
+            <div class="project-name">🔍 Poncho Job Hunter — Chrome Extension + Dashboard</div>
+            <div class="project-desc">Extensión de Chrome que captura vacantes de OCC, Indeed, Computrabajo y LinkedIn. Incluye dashboard de seguimiento y análisis de compatibilidad con IA (Groq API / LLaMA 3.3) contra mi propio perfil profesional.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">JavaScript</span><span class="tech-tag">Chrome Extensions</span><span class="tech-tag">Groq API</span><span class="tech-tag">LLaMA 3.3</span><span class="tech-tag">HTML/CSS</span><span class="tech-tag">AI Integration</span>
+            </div>
+        </div>
+        <div class="project-card amber">
+            <div class="project-name">🏪 San Gerardo Mercado Local — Plataforma Comunitaria</div>
+            <div class="project-desc">Marketplace web para condominio con panel de vendedores, módulo de noticias, mapa de locales y sistema de reporte ciudadano municipal. Desplegado en Netlify.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">Next.js</span><span class="tech-tag">Firebase</span><span class="tech-tag">MercadoPago</span><span class="tech-tag">Netlify</span><span class="tech-tag">Flutter</span>
+            </div>
+            <a href="https://sangerardomercado.netlify.app/" class="project-link amber" target="_blank"><i class="fas fa-external-link-alt"></i> Ver proyecto</a>
+        </div>
+        <div class="project-card">
+            <div class="project-name">📊 Calculadora de Liquidación Laboral (México)</div>
+            <div class="project-desc">App HTML standalone que implementa el cálculo completo de finiquito e indemnización conforme a la LFT: vacaciones proporcionales, aguinaldo proporcional, fondo de ahorro y las 3 modalidades de indemnización constitucional.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">HTML</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Ley Federal del Trabajo</span><span class="tech-tag">UX Design</span>
+            </div>
+        </div>
+        <div class="project-card amber">
+            <div class="project-name">🎛️ StreamSound Master — Masterización de Audio Web</div>
+            <div class="project-desc">App web de masterización de audio profesional con cadena de procesamiento completa: EQ, compresión 4 bandas, saturación, normalización LUFS, limiter y dither. Incluye analizadores visuales en tiempo real (Vectorscope, FFT Spectrum, Waveform, Loudness EBU R128), soporte multi-formato y optimización por plataforma (Spotify, Apple Music, YouTube, etc.). Desplegado en Netlify.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">JavaScript</span><span class="tech-tag">Web Audio API</span><span class="tech-tag">HTML/CSS</span><span class="tech-tag">EBU R128</span><span class="tech-tag">FFT</span><span class="tech-tag">Netlify</span>
+            </div>
+            <a href="https://streamsound-master.netlify.app/" class="project-link amber" target="_blank"><i class="fas fa-external-link-alt"></i> Ver proyecto</a>
+        </div>
+        <div class="project-card">
+            <div class="project-name">🗑️ Sistema de Control de Material Scrap</div>
+            <div class="project-desc">Sistema web para gestión y control de material scrap con flujo de aprobación gerencial, recolección mediante códigos QR y módulo de administración completo. Incluye roles diferenciados (Supervisor, Gerente, Recolector, Admin), gestión de plantas y áreas, generación automática de QR y auditoría de acciones. Desarrollado para planta de manufactura automotriz.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">HTML</span><span class="tech-tag">JavaScript</span><span class="tech-tag">LocalStorage</span><span class="tech-tag">QR Code</span><span class="tech-tag">Roles & Auth</span><span class="tech-tag">UX Design</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-name">📅 Sistema de Gestión de Vacaciones Multi-Año</div>
+            <div class="project-desc">App web standalone para planificación y control de vacaciones 2026–2035. Incluye gestión de empleados, calendario interactivo multi-año, control por departamento y estadísticas de ocupación. Desarrollado como herramienta interna de recursos humanos para manufactura.</div>
+            <div class="tech-stack">
+                <span class="tech-tag">HTML</span><span class="tech-tag">JavaScript</span><span class="tech-tag">CSS</span><span class="tech-tag">LocalStorage</span><span class="tech-tag">UX Design</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Logros Destacados -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-trophy"></i> Logros Destacados</h2>
+        <div class="logros-grid">
+            <div class="logro-item"><i class="fas fa-microchip"></i><span>Sistema de digitalización de almacenes en Nissan: eliminó procesos manuales y mejoró trazabilidad en tiempo real.</span></div>
+            <div class="logro-item"><i class="fas fa-chart-line"></i><span>Optimización sostenida de <strong>Downtime, PPOF y DPHU</strong> en línea automotriz de alto volumen.</span></div>
+            <div class="logro-item"><i class="fas fa-users-cog"></i><span>Liderazgo de equipos de hasta <strong>23 personas</strong> en operaciones 24/7 de manufactura automotriz.</span></div>
+            <div class="logro-item"><i class="fas fa-network-wired"></i><span>Gestión logística multi-sitio: <strong>2 plantas + 2 CEDIS</strong> simultáneos en Bonafont / Danone.</span></div>
+            <div class="logro-item"><i class="fas fa-code"></i><span>6 productos digitales funcionales desarrollados <strong>desde cero</strong> sin experiencia previa en programación.</span></div>
+        </div>
+    </div>
+
+    <!-- 8. Habilidades Técnicas -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-cogs"></i> Habilidades Técnicas</h2>
+        <div class="skills-grid">
+            <div><div class="skill-header"><span>Excel / Google Sheets Avanzado</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill" data-w="95"></div></div></div>
+            <div><div class="skill-header"><span>Gestión de Inventarios / WMS</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill" data-w="92"></div></div></div>
+            <div><div class="skill-header"><span>Lean Manufacturing / 5S / Kaizen</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" data-w="88"></div></div></div>
+            <div><div class="skill-header"><span>Análisis de Datos / KPIs</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-fill" data-w="80"></div></div></div>
+            <div><div class="skill-header"><span>JavaScript / HTML / CSS</span><span class="skill-pct">72%</span></div><div class="skill-track"><div class="skill-fill" data-w="72"></div></div></div>
+            <div><div class="skill-header"><span>Inglés Técnico</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-fill" data-w="80"></div></div></div>
+        </div>
+    </div>
+
+    <!-- 9. Competencias Clave -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-tags"></i> Competencias Clave</h2>
+        <div class="tag-cloud">
+            <span class="tag blue">JIT / JIS</span>
+            <span class="tag blue">Supply Chain</span>
+            <span class="tag blue">MRP / ERP</span>
+            <span class="tag green">Lean Mfg.</span>
+            <span class="tag green">Kaizen</span>
+            <span class="tag green">5S</span>
+            <span class="tag green">ISO 45001</span>
+            <span class="tag amber">AI APIs</span>
+            <span class="tag amber">Data Science</span>
+            <span class="tag amber">Chrome Extensions</span>
+            <span class="tag">Liderazgo</span>
+            <span class="tag">Supervisión</span>
+            <span class="tag">KPIs</span>
+            <span class="tag">Inventarios Fiscales</span>
+            <span class="tag">ISO 9000</span>
+        </div>
+    </div>
+
+    <!-- 10. Contacto -->
+    <div class="card fade-up">
+        <h2 class="section-title"><i class="fas fa-address-card"></i> Contacto</h2>
+        <div class="contact-grid">
+            <a href="tel:4497573058" class="contact-item"><i class="fas fa-phone"></i> 449 757 3058</a>
+            <a href="mailto:ponchoramirezcast@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> ponchoramirezcast@gmail.com</a>
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.</div>
+            <a href="https://wa.me/524497573058" class="contact-item green" target="_blank"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</a>
+            <a href="https://alfonso-ramirez-cv.netlify.app" class="contact-item" target="_blank"><i class="fas fa-globe"></i> alfonso-ramirez-cv.netlify.app</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <strong>José Alfonso Ramírez Castañeda</strong> · Ingeniero Industrial · Logística · Manufactura · Data Science<br>
+    <span style="font-size:11px;">© 2026 · Todos los derechos reservados</span>
+</footer>
+
+<script>
+    // Fade-up animation
+    const fadeObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                fadeObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+    // Skill bars animation
+    const skillObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.querySelectorAll('.skill-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.w + '%';
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.card').forEach(c => skillObs.observe(c));
+</script>
