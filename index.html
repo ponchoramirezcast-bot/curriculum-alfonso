@@ -225,17 +225,16 @@
                 background-color: white !important;
             }
             body::before, body::after { display: none !important; }
-            header { padding: 22px 0 30px; background: white !important; }
-            .header-inner { display: flex !important; gap: 24px; flex-wrap: wrap; }
-            .header-text { flex: 1 !important; display: block !important; }
-            .avatar-ring { display: none !important; }
-            h1.name { font-size: 22px; }
-            .title-line { font-size: 12px; margin-bottom: 12px; }
-            .header-badge { display: none !important; }
-            .personal-info { display: flex !important; font-size: 11px !important; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-            .info-item { display: inline-flex !important; font-size: 11px !important; padding: 4px 10px; }
-            .contact-chips { display: flex !important; font-size: 11px !important; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-            .chip { display: inline-flex !important; font-size: 10px; padding: 4px 10px; }
+            header { padding: 22px 0 28px; overflow: visible !important; }
+            .header-geo, .header-geo2 { display: none !important; }
+            .header-inner { max-width: 900px; display: flex !important; align-items: flex-start !important; gap: 20px; padding: 0 20px; }
+            .header-text { flex: 1 !important; }
+            h1.name { font-size: 20px; }
+            .title-line { font-size: 11px; margin-bottom: 8px; }
+            .personal-info { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; margin-bottom: 8px !important; }
+            .info-item { display: inline-flex !important; font-size: 10px !important; padding: 3px 8px !important; }
+            .contact-chips { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; }
+            .chip { display: inline-flex !important; font-size: 10px !important; padding: 3px 8px !important; }
             .stats-bar { margin-top: -12px; padding: 0 20px; }
             .stat { padding: 10px 8px; }
             .stat-num { font-size: 20px; }
