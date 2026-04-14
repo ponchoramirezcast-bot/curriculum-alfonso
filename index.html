@@ -225,10 +225,14 @@
                 background-color: white !important;
             }
             body::before, body::after { display: none !important; }
-            header { padding: 22px 0 30px; }
+            header { padding: 22px 0 30px; background: white !important; }
+            .header-inner { display: flex !important; gap: 24px; flex-wrap: wrap; }
+            .header-text { flex: 1 !important; display: block !important; }
+            .avatar-ring { display: none !important; }
             h1.name { font-size: 22px; }
-            .title-line { font-size: 12px; }
-            .personal-info { display: flex !important; font-size: 11px !important; gap: 8px; margin-bottom: 10px; }
+            .title-line { font-size: 12px; margin-bottom: 12px; }
+            .header-badge { display: none !important; }
+            .personal-info { display: flex !important; font-size: 11px !important; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
             .info-item { display: inline-flex !important; font-size: 11px !important; padding: 4px 10px; }
             .contact-chips { display: flex !important; font-size: 11px !important; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
             .chip { display: inline-flex !important; font-size: 10px; padding: 4px 10px; }
