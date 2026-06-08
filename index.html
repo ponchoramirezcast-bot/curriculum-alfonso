@@ -201,6 +201,7 @@
         .float-btn:hover { transform: scale(1.1); }
         .float-wa  { bottom: 88px; background: #25d366; color: white; }
         .float-pdf { bottom: 24px; background: #dc2626; color: white; }
+        .float-lang { bottom: 152px; background: var(--navy2); color: white; border: 2px solid var(--blue-lt); font-size: 12px; font-weight: 700; letter-spacing: .05em; width: 52px; height: 52px; }
 
         /* FOOTER */
         footer { background: var(--navy); color: rgba(255,255,255,.5); text-align: center; padding: 28px; font-size: 12px; }
@@ -330,6 +331,7 @@
 
 <a href="https://wa.me/524497573058?text=Hola%20Alfonso,%20vi%20tu%20CV%20y%20me%20interesa%20contactarte" class="float-btn float-wa" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
 <button onclick="window.print()" class="float-btn float-pdf" title="Descargar PDF"><i class="fas fa-file-pdf"></i></button>
+<button onclick="toggleLang()" class="float-btn float-lang" id="lang-btn" title="Switch language">ES</button>
 
 <!-- HEADER SOLO PARA PDF (texto oscuro sobre fondo blanco = siempre visible) -->
 <div class="print-header">
@@ -360,18 +362,18 @@
                  onerror="this.src='https://ui-avatars.com/api/?name=José+Alfonso+Ramírez&background=1d4ed8&color=fff&size=256'">
         </div>
         <div class="header-text">
-            <div class="header-badge">&#x25CF;&nbsp; Disponible para nuevas oportunidades</div>
+            <div class="header-badge" id="header-badge">&#x25CF;&nbsp; Disponible para nuevas oportunidades</div>
             <h1 class="name">José Alfonso Ramírez Castañeda</h1>
-            <p class="title-line">Ingeniero Industrial · Supervisor de Logística &amp; Manufactura · Data Science Enthusiast</p>
+            <p class="title-line" id="header-title-line">Ingeniero Industrial · Supervisor de Logística &amp; Manufactura · Data Science Enthusiast</p>
             <div class="personal-info">
-                <span class="info-item"><i class="fas fa-birthday-cake"></i> 42 años</span>
-                <span class="info-item"><i class="fas fa-ring"></i> Casado</span>
+                <span class="info-item" id="info-age"><i class="fas fa-birthday-cake"></i> 42 años</span>
+                <span class="info-item" id="info-marital"><i class="fas fa-ring"></i> Casado</span>
             </div>
             <div class="contact-chips">
                 <a href="tel:4497573058" class="chip"><i class="fas fa-phone"></i> 449 757 3058</a>
                 <a href="mailto:ponchoramirezcast@gmail.com" class="chip"><i class="fas fa-envelope"></i> ponchoramirezcast@gmail.com</a>
                 <span class="chip"><i class="fas fa-map-marker-alt"></i> Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.</span>
-                <a href="https://wa.me/524497573058" class="chip green" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://wa.me/524497573058" class="chip green" id="chip-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 <a href="https://ponchoramirezcast-bot.github.io/curriculum-alfonso/" class="chip amber" target="_blank"><i class="fas fa-globe"></i> CV Online</a>
             </div>
         </div>
@@ -381,11 +383,11 @@
 <!-- STATS BAR -->
 <div class="stats-bar">
     <div class="stats-inner">
-        <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Años de Experiencia</div></div>
-        <div class="stat"><div class="stat-num">35+</div><div class="stat-label">Personas Lideradas</div></div>
-        <div class="stat"><div class="stat-num amber">7</div><div class="stat-label">Empresas Líderes</div></div>
-        <div class="stat"><div class="stat-num">6</div><div class="stat-label">Proyectos Tech Propios</div></div>
-        <div class="stat"><div class="stat-num">80%</div><div class="stat-label">Inglés Técnico</div></div>
+        <div class="stat"><div class="stat-num">20+</div><div class="stat-label" id="stat-exp">Años de Experiencia</div></div>
+        <div class="stat"><div class="stat-num">35+</div><div class="stat-label" id="stat-team">Personas Lideradas</div></div>
+        <div class="stat"><div class="stat-num amber">7</div><div class="stat-label" id="stat-comp">Empresas Líderes</div></div>
+        <div class="stat"><div class="stat-num">6</div><div class="stat-label" id="stat-proj">Proyectos Tech Propios</div></div>
+        <div class="stat"><div class="stat-num">80%</div><div class="stat-label" id="stat-eng">Inglés Técnico</div></div>
     </div>
 </div>
 
@@ -394,8 +396,8 @@
 
     <!-- 1. Educación -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Educación</h2>
-        <div class="edu-grid">
+        <h2 class="section-title" id="sec-edu"><i class="fas fa-graduation-cap"></i> Educación</h2>
+        <div class="edu-grid" id="edu-grid">
             <div class="edu-item">
                 <div class="edu-title">Lic. en Ingeniería Industrial</div>
                 <div class="edu-inst">Instituto Tecnológico de Aguascalientes</div>
@@ -411,15 +413,15 @@
 
     <!-- 2. Perfil Profesional -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-user-tie"></i> Perfil Profesional</h2>
-        <p class="profile-text">
+        <h2 class="section-title" id="sec-profile"><i class="fas fa-user-tie"></i> Perfil Profesional</h2>
+        <p class="profile-text" id="profile-p1">
             Ingeniero Industrial con <strong>más de 20 años de experiencia</strong> liderando operaciones de logística,
             administración de almacenes y manufactura en empresas transnacionales de clase mundial como
             <strong>Nissan Mexicana</strong>, <strong>COMPAS Manufacturing</strong>, <strong>Bonafont/Danone</strong> y <strong>Sensata Technologies</strong>. Especialista en
             <span class="highlight">control de inventarios, lean manufacturing y abastecimiento JIT/JIS</span>
             para líneas de producción automotrices de alto volumen. Certificado ISO 45001:2018.
         </p>
-        <p class="profile-text" style="margin-top:12px;">
+        <p class="profile-text" id="profile-p2" style="margin-top:12px;">
             Actualmente en transición activa hacia <strong>Data Science e Inteligencia Artificial</strong>,
             con proyectos tecnológicos propios desarrollados en <strong>JavaScript, HTML, CSS y API integrations</strong>.
             Capacidad demostrada para combinar la visión operativa del ingeniero industrial con herramientas
@@ -429,8 +431,8 @@
 
     <!-- 3. Experiencia Profesional -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-briefcase"></i> Experiencia Profesional</h2>
-        <div class="timeline">
+        <h2 class="section-title" id="sec-exp"><i class="fas fa-briefcase"></i> Experiencia Profesional</h2>
+        <div class="timeline" id="timeline">
 
             <!-- COMPAS -->
             <div class="job">
@@ -585,11 +587,11 @@
 
     <!-- 4. Seguridad Industrial -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad</h2>
+        <h2 class="section-title" id="sec-safety"><i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad</h2>
         <div style="margin-bottom:14px;">
-            <span style="background:#dcfce7;color:#166534;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.05em;">● VIGENTES 2026</span>
+            <span id="safety-badge" style="background:#dcfce7;color:#166534;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.05em;">● VIGENTES 2026</span>
         </div>
-        <div class="cert-grid">
+        <div class="cert-grid" id="safety-certs">
             <div class="cert-item green"><i class="fas fa-fire-extinguisher"></i><div><div class="cert-name">Brigadista de Evacuación</div><div class="cert-org">2026</div></div></div>
             <div class="cert-item green"><i class="fas fa-chair"></i><div><div class="cert-name">Ergonomía Laboral</div><div class="cert-org">2026</div></div></div>
             <div class="cert-item green"><i class="fas fa-flask"></i><div><div class="cert-name">Manejo, Identificación, Almacenamiento y Transporte de Sustancias Químicas Peligrosas</div><div class="cert-org">2026</div></div></div>
@@ -602,8 +604,8 @@
 
     <!-- 5. Certificaciones -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-certificate"></i> Certificaciones</h2>
-        <div class="cert-grid">
+        <h2 class="section-title" id="sec-certs"><i class="fas fa-certificate"></i> Certificaciones</h2>
+        <div class="cert-grid" id="certs-grid">
             <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">Excel Avanzado</div><div class="cert-org">A2 Capacitaciones · 2022</div></div></div>
             <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">5 Reglas de Oro — Admón. de Almacenes</div><div class="cert-org">Quality Training · 2012 · 12 hrs</div></div></div>
             <div class="cert-item"><i class="fas fa-award"></i><div><div class="cert-name">ISO 9000 en la Pequeña Empresa</div><div class="cert-org">CONALEP · 2001 · 40 hrs</div></div></div>
@@ -614,8 +616,8 @@
 
     <!-- 6. Proyectos Tecnológicos -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-laptop-code"></i> Proyectos Tecnológicos Desarrollados</h2>
-        <p style="font-size:13px; color:var(--slate); margin-bottom:16px;">Iniciativas desarrolladas de forma autodidacta que demuestran capacidad de transición hacia roles digitales y de datos.</p>
+        <h2 class="section-title" id="sec-projects"><i class="fas fa-laptop-code"></i> Proyectos Tecnológicos Desarrollados</h2>
+        <p id="projects-intro" style="font-size:13px; color:var(--slate); margin-bottom:16px;">Iniciativas desarrolladas de forma autodidacta que demuestran capacidad de transición hacia roles digitales y de datos.</p>
         <div class="project-card">
             <div class="project-name">🔍 Poncho Job Hunter — Chrome Extension + Dashboard</div>
             <div class="project-desc">Extensión de Chrome que captura vacantes de OCC, Indeed, Computrabajo y LinkedIn. Incluye dashboard de seguimiento y análisis de compatibilidad con IA (Groq API / LLaMA 3.3) contra mi propio perfil profesional.</div>
@@ -684,8 +686,8 @@
 
     <!-- 7. Logros Destacados -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-trophy"></i> Logros Destacados</h2>
-        <div class="logros-grid">
+        <h2 class="section-title" id="sec-achiev"><i class="fas fa-trophy"></i> Logros Destacados</h2>
+        <div class="logros-grid" id="logros-grid">
             <div class="logro-item"><i class="fas fa-microchip"></i><span>Sistema de digitalización de almacenes en Nissan: redujo descarga por transporte de <strong>1:20 → 40 min</strong> y mejoró trazabilidad en tiempo real.</span></div>
             <div class="logro-item"><i class="fas fa-chart-line"></i><span>Sistema QAM (iniciativa propia) en COMPAS: Downtime de <strong>89% → menos de 3 min/mes</strong> y DPHU menor a 3 unidades.</span></div>
             <div class="logro-item"><i class="fas fa-users-cog"></i><span>Liderazgo de equipos de hasta <strong>35 personas</strong> en operaciones 24/7 de manufactura automotriz.</span></div>
@@ -697,8 +699,8 @@
 
     <!-- 8. Habilidades Técnicas -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-cogs"></i> Habilidades Técnicas</h2>
-        <div class="skills-grid">
+        <h2 class="section-title" id="sec-skills"><i class="fas fa-cogs"></i> Habilidades Técnicas</h2>
+        <div class="skills-grid" id="skills-grid">
             <div><div class="skill-header"><span>Excel / Google Sheets Avanzado</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill" data-w="95"></div></div></div>
             <div><div class="skill-header"><span>Gestión de Inventarios / WMS</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill" data-w="92"></div></div></div>
             <div><div class="skill-header"><span>Lean Manufacturing / 5S / Kaizen</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" data-w="88"></div></div></div>
@@ -710,8 +712,8 @@
 
     <!-- 9. Competencias Clave -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-tags"></i> Competencias Clave</h2>
-        <div class="tag-cloud">
+        <h2 class="section-title" id="sec-tags"><i class="fas fa-tags"></i> Competencias Clave</h2>
+        <div class="tag-cloud" id="tags-cloud">
             <span class="tag blue">JIT / JIS</span>
             <span class="tag blue">Supply Chain</span>
             <span class="tag blue">MRP / ERP</span>
@@ -738,12 +740,12 @@
 
     <!-- 10. Contacto -->
     <div class="card fade-up">
-        <h2 class="section-title"><i class="fas fa-address-card"></i> Contacto</h2>
+        <h2 class="section-title" id="sec-contact"><i class="fas fa-address-card"></i> Contacto</h2>
         <div class="contact-grid">
             <a href="tel:4497573058" class="contact-item"><i class="fas fa-phone"></i> 449 757 3058</a>
             <a href="mailto:ponchoramirezcast@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> ponchoramirezcast@gmail.com</a>
             <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.</div>
-            <a href="https://wa.me/524497573058" class="contact-item green" target="_blank"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</a>
+            <a href="https://wa.me/524497573058" class="contact-item green" id="contact-wa" target="_blank"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</a>
             <a href="https://ponchoramirezcast-bot.github.io/curriculum-alfonso/" class="contact-item" target="_blank"><i class="fas fa-globe"></i> ponchoramirezcast-bot.github.io/curriculum-alfonso</a>
         </div>
     </div>
@@ -753,10 +755,516 @@
 <!-- FOOTER -->
 <footer>
     <strong>José Alfonso Ramírez Castañeda</strong> · Ingeniero Industrial · Logística · Manufactura · Data Science<br>
-    <span style="font-size:11px;">© 2026 · Todos los derechos reservados</span>
+    <span id="footer-sub" style="font-size:11px;">© 2026 · Todos los derechos reservados</span>
 </footer>
 
 <script>
+    // ─── LANGUAGE TOGGLE ───────────────────────────────────────────────────────
+    const translations = {
+        es: {
+            // Meta
+            langCode: 'es',
+            btnLabel: 'EN',
+            docLang: 'es',
+            // Header badge
+            badge: '● &nbsp; Disponible para nuevas oportunidades',
+            titleLine: 'Ingeniero Industrial · Supervisor de Logística &amp; Manufactura · Data Science Enthusiast',
+            // Personal info chips
+            age: '42 años',
+            marital: 'Casado',
+            // Stats
+            statExp: 'Años de Experiencia',
+            statTeam: 'Personas Lideradas',
+            statComp: 'Empresas Líderes',
+            statProj: 'Proyectos Tech Propios',
+            statEng: 'Inglés Técnico',
+            // Section titles
+            secEdu: '<i class="fas fa-graduation-cap"></i> Educación',
+            secProfile: '<i class="fas fa-user-tie"></i> Perfil Profesional',
+            secExp: '<i class="fas fa-briefcase"></i> Experiencia Profesional',
+            secSafety: '<i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad',
+            secCerts: '<i class="fas fa-certificate"></i> Certificaciones',
+            secProjects: '<i class="fas fa-laptop-code"></i> Proyectos Tecnológicos Desarrollados',
+            secAchiev: '<i class="fas fa-trophy"></i> Logros Destacados',
+            secSkills: '<i class="fas fa-cogs"></i> Habilidades Técnicas',
+            secTags: '<i class="fas fa-tags"></i> Competencias Clave',
+            secContact: '<i class="fas fa-address-card"></i> Contacto',
+            // Safety badge
+            safetyBadge: '● VIGENTES 2026',
+            // Projects intro
+            projectsIntro: 'Iniciativas desarrolladas de forma autodidacta que demuestran capacidad de transición hacia roles digitales y de datos.',
+            // Footer
+            footerSub: '© 2026 · Todos los derechos reservados',
+            // Float btn
+            waTitle: 'WhatsApp',
+            pdfTitle: 'Descargar PDF',
+            // WA link text
+            waLinkText: 'WhatsApp',
+            waContactText: 'Escribir por WhatsApp',
+            // Contact
+            contactAvail: 'Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags.',
+            // availability chips in header
+            availChip: 'Disponible: Junio 2026',
+        },
+        en: {
+            langCode: 'en',
+            btnLabel: 'ES',
+            docLang: 'en',
+            badge: '● &nbsp; Open to new opportunities',
+            titleLine: 'Industrial Engineer · Logistics &amp; Manufacturing Supervisor · Data Science Enthusiast',
+            age: '42 years old',
+            marital: 'Married',
+            statExp: 'Years of Experience',
+            statTeam: 'People Led',
+            statComp: 'Top Companies',
+            statProj: 'Own Tech Projects',
+            statEng: 'Technical English',
+            secEdu: '<i class="fas fa-graduation-cap"></i> Education',
+            secProfile: '<i class="fas fa-user-tie"></i> Professional Profile',
+            secExp: '<i class="fas fa-briefcase"></i> Professional Experience',
+            secSafety: '<i class="fas fa-hard-hat"></i> Industrial Safety &amp; Compliance',
+            secCerts: '<i class="fas fa-certificate"></i> Certifications',
+            secProjects: '<i class="fas fa-laptop-code"></i> Tech Projects Built',
+            secAchiev: '<i class="fas fa-trophy"></i> Key Achievements',
+            secSkills: '<i class="fas fa-cogs"></i> Technical Skills',
+            secTags: '<i class="fas fa-tags"></i> Core Competencies',
+            secContact: '<i class="fas fa-address-card"></i> Contact',
+            safetyBadge: '● ACTIVE 2026',
+            projectsIntro: 'Self-taught initiatives demonstrating ability to transition into digital and data roles.',
+            footerSub: '© 2026 · All rights reserved',
+            waTitle: 'WhatsApp',
+            pdfTitle: 'Download PDF',
+            waLinkText: 'WhatsApp',
+            waContactText: 'Message on WhatsApp',
+            contactAvail: 'Prol. Paseo de la Asunción 5205 Int. 9, San Gerardo, Ags., México',
+            availChip: 'Available: June 2026',
+        }
+    };
+
+    const content = {
+        es: {
+            profile: `Ingeniero Industrial con <strong>más de 20 años de experiencia</strong> liderando operaciones de logística,
+            administración de almacenes y manufactura en empresas transnacionales de clase mundial como
+            <strong>Nissan Mexicana</strong>, <strong>COMPAS Manufacturing</strong>, <strong>Bonafont/Danone</strong> y <strong>Sensata Technologies</strong>. Especialista en
+            <span class="highlight">control de inventarios, lean manufacturing y abastecimiento JIT/JIS</span>
+            para líneas de producción automotrices de alto volumen. Certificado ISO 45001:2018.`,
+            profile2: `Actualmente en transición activa hacia <strong>Data Science e Inteligencia Artificial</strong>,
+            con proyectos tecnológicos propios desarrollados en <strong>JavaScript, HTML, CSS y API integrations</strong>.
+            Capacidad demostrada para combinar la visión operativa del ingeniero industrial con herramientas
+            digitales que generan <span class="highlight">eficiencia medible y ventaja competitiva</span>.`,
+            // Education
+            edu: [
+                { title: 'Lic. en Ingeniería Industrial', inst: 'Instituto Tecnológico de Aguascalientes', year: 'Generación 2001 – 2005', amber: false },
+                { title: 'Data Science &amp; AI — En formación', inst: 'Autodidacta + Plataformas Online', year: '2024 – Presente', amber: true }
+            ],
+            // Jobs
+            jobs: [
+                {
+                    title: 'Supervisor de Manejo de Materiales',
+                    company: 'COMPAS Manufacturing — Planta Nissan Aguascalientes',
+                    sub: 'Áreas: Trim &amp; Chassis · Estampado · Almacén D3 · Hasta 1,400 SKUs activas',
+                    date: 'Jul 2019 – May 2026', current: true,
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Logro Clave</span> Reducción de <strong>Downtime por falta de material de 89% a menos de 3 minutos por mes</strong>, mediante control estricto de abastecimiento JIT/JIS a líneas C5–C8 de alto volumen.' },
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Iniciativa Propia</span> Diseño e implementación del <strong>Sistema QAM</strong> — escáner de detección de faltantes al ingreso de material a línea, impactando directamente reducción de Downtime y <span class="metric-tag">DPHU &lt; 3 uds/mes</span>.' },
+                        { icon: 'check', text: 'Administración integral de almacenes Estampado y D3: recibo, almacenamiento, control de hasta 1,400 SKUs activas y despacho a línea de producción automotriz.' },
+                        { icon: 'check', text: 'Supervisión de subensambles, pre-picking y modulación de partes en zona B&amp;K para producción continua en líneas de alta cadencia C5–C8.' },
+                        { icon: 'check', text: 'Monitoreo y mejora de KPIs críticos: <span class="metric-tag">Downtime</span> <span class="metric-tag">PPOF</span> <span class="metric-tag">DPHU</span>' },
+                        { icon: 'check', text: 'Implementación y mantenimiento de metodología <strong>5S</strong> y controles visuales con resultados auditados.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Liderazgo de hasta 34 colaboradores en operaciones 24/7</span>' }
+                    ]
+                },
+                {
+                    title: 'Supervisor de Almacén Recibo',
+                    company: 'Nissan Mexicana',
+                    sub: 'Planta Aguascalientes — Logística de Entrada',
+                    date: 'Dic 2014 – May 2019', current: false,
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Logro Clave</span> Co-desarrollo e implementación de <strong>sistema de digitalización de almacenes</strong> — redujo tiempo de descarga por transporte de <span class="metric-tag">1:20 → 40 min</span> y documentación de carga de equipos vacíos de <span class="metric-tag">60 → 38 min</span>.' },
+                        { icon: 'check', text: 'Coordinación del recibo de materiales de proveedores nacionales e internacionales bajo esquema <strong>JIT/JIS</strong>.' },
+                        { icon: 'check', text: 'Conciliación de recibos con área de Finanzas, asegurando cierre contable sin diferencias.' },
+                        { icon: 'check', text: 'Inventarios fiscales anuales con confiabilidad de <strong>98.6% a 99.8%</strong>, manteniendo cero inconsistencias en conciliación con Finanzas.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Liderazgo de 11 colaboradores</span>' }
+                    ]
+                },
+                {
+                    title: 'Jefe Logístico Regional',
+                    company: 'Envasadoras de Aguas (Bonafont / Danone)',
+                    companyAmber: true,
+                    sub: '',
+                    date: 'Ene 2014 – Dic 2014', current: false, amber: true,
+                    bullets: [
+                        { icon: 'check', text: 'Coordinación logística simultánea de <strong>2 plantas</strong> productivas (Aguascalientes y SLP) y <strong>2 CEDIS</strong> (Zacatecas y Fresnillo), garantizando <span class="metric-tag">fill rate regional 98%</span>.' },
+                        { icon: 'check', text: 'Control de stock y abastecimiento de productos de temporada con alta variabilidad de demanda. Gestión bajo metodología <strong>FIFO/FEFO</strong>.' },
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Iniciativa Propia</span> Implementación de <strong>sistema de control y seguimiento de gastos de transporte</strong> — área que operaba sin indicadores formales previos.' },
+                        { icon: 'check', text: 'Coordinación con área de Compras para adquisición de materiales y gestión de pedidos en tiempo y forma.' }
+                    ]
+                },
+                {
+                    title: 'Supervisor de Almacén',
+                    company: 'Sensata Technologies',
+                    companyAmber: true,
+                    sub: 'Aguascalientes',
+                    date: 'May 2013 – Nov 2013', current: false, amber: true,
+                    bullets: [
+                        { icon: 'check', text: 'Administración de almacenes: recibo de materiales y envío de producto terminado.' },
+                        { icon: 'check', text: 'Control de inventarios y manejo de sistema <strong>Oracle</strong> para control de almacén.' },
+                        { icon: 'check', text: 'Implementación de <strong>Lean Manufacturing</strong> en procesos de almacén.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Liderazgo de 18 colaboradores</span>' }
+                    ]
+                },
+                {
+                    title: 'Responsable de Recibo y Almacén',
+                    company: 'Vianney Textil Hogar',
+                    sub: 'Aguascalientes',
+                    date: 'Mar 2010 – May 2013', current: false,
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Logro Clave</span> Diagnóstico y rediseño completo del <strong>layout de almacén</strong> — redujo tiempo de preparación de órdenes de <span class="metric-tag">2:00 → 1:10 hr</span>, patrón de caminado de <span class="metric-tag">~14 km → ~5.6 km</span> diarios, y fill rate de <span class="metric-tag">89% → 97%</span>.' },
+                        { icon: 'check', text: 'Administración integral de almacén de producto terminado y materiales: recibo, almacenamiento y despacho de pedidos.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Liderazgo de 35 colaboradores</span>' }
+                    ]
+                },
+                {
+                    title: 'Jefe de Almacén',
+                    company: 'Amitech México S.A. de C.V.',
+                    companyAmber: true,
+                    sub: '',
+                    date: 'Abr 2009 – Feb 2010', current: false, amber: true,
+                    bullets: [
+                        { icon: 'check', text: 'Administración de almacén de materia prima y producto terminado: recibo, control de inventarios y despacho a cliente.' },
+                        { icon: 'check', text: 'Implementación de planeación de materiales basada en inventario existente y plan de producción, asegurando disponibilidad sin generar sobrestock.' },
+                        { icon: 'check', text: 'Coordinación de envíos a cliente, gestión de facturación y organización de transportes para entrega puntual.' }
+                    ]
+                },
+                {
+                    title: 'Staff de Almacén de Embarques',
+                    company: 'Sistema de Arneses K&amp;S Mexicana',
+                    sub: '',
+                    date: 'May 2005 – Oct 2008', current: false,
+                    bullets: [
+                        { icon: 'check', text: 'Control y administración de material de empaque, asegurando disponibilidad continua para líneas de producción de arneses automotrices.' },
+                        { icon: 'check', text: 'Gestión de trámites aduanales de importación — coordinación con agentes aduanales para liberación oportuna de materiales internacionales.' },
+                        { icon: 'check', text: 'Control de inventarios con conciliación periódica, garantizando exactitud en existencias y trazabilidad del material.' },
+                        { icon: 'check', text: 'Envíos a cliente y gestión de facturación, asegurando cumplimiento de entregas en tiempo y forma.' }
+                    ]
+                }
+            ],
+            // Achievements
+            achievements: [
+                { icon: 'fas fa-microchip', text: 'Sistema de digitalización de almacenes en Nissan: redujo descarga por transporte de <strong>1:20 → 40 min</strong> y mejoró trazabilidad en tiempo real.' },
+                { icon: 'fas fa-chart-line', text: 'Sistema QAM (iniciativa propia) en COMPAS: Downtime de <strong>89% → menos de 3 min/mes</strong> y DPHU menor a 3 unidades.' },
+                { icon: 'fas fa-users-cog', text: 'Liderazgo de equipos de hasta <strong>35 personas</strong> en operaciones 24/7 de manufactura automotriz.' },
+                { icon: 'fas fa-network-wired', text: 'Gestión logística multi-sitio: <strong>2 plantas + 2 CEDIS</strong> simultáneos en Bonafont / Danone con fill rate del 98%.' },
+                { icon: 'fas fa-warehouse', text: 'Rediseño de layout en Vianney: fill rate de <strong>89% → 97%</strong> y reducción de caminado de operadores de <strong>14 km → 5.6 km</strong> diarios.' },
+                { icon: 'fas fa-code', text: '6 productos digitales funcionales desarrollados <strong>desde cero</strong> sin experiencia previa en programación.' }
+            ],
+            // Skills
+            skills: [
+                { label: 'Excel / Google Sheets Avanzado', pct: 95 },
+                { label: 'Gestión de Inventarios / WMS', pct: 92 },
+                { label: 'Lean Manufacturing / 5S / Kaizen', pct: 88 },
+                { label: 'Análisis de Datos / KPIs', pct: 80 },
+                { label: 'JavaScript / HTML / CSS', pct: 72 },
+                { label: 'Inglés Técnico', pct: 80 }
+            ],
+            // Tags
+            tags: [
+                { text: 'JIT / JIS', cls: 'blue' }, { text: 'Supply Chain', cls: 'blue' }, { text: 'MRP / ERP', cls: 'blue' },
+                { text: 'Lean Mfg.', cls: 'green' }, { text: 'Kaizen', cls: 'green' }, { text: '5S', cls: 'green' }, { text: 'ISO 45001', cls: 'green' },
+                { text: 'AI APIs', cls: 'amber' }, { text: 'Data Science', cls: 'amber' }, { text: 'Chrome Extensions', cls: 'amber' },
+                { text: 'Liderazgo', cls: '' }, { text: 'Supervisión', cls: '' }, { text: 'KPIs', cls: '' }, { text: 'Inventarios Fiscales', cls: '' }, { text: 'ISO 9000', cls: '' },
+                { text: 'Oracle', cls: '' }, { text: 'WMS', cls: '' }, { text: 'FIFO / FEFO', cls: '' }, { text: 'Montacargas', cls: '' },
+                { text: 'Power BI', cls: 'blue' }, { text: 'Slotting Optimization', cls: 'blue' }
+            ],
+            // Safety certs
+            safetyCerts: [
+                { icon: 'fas fa-fire-extinguisher', cls: 'green', name: 'Brigadista de Evacuación', org: '2026' },
+                { icon: 'fas fa-chair', cls: 'green', name: 'Ergonomía Laboral', org: '2026' },
+                { icon: 'fas fa-flask', cls: 'green', name: 'Manejo, Identificación, Almacenamiento y Transporte de Sustancias Químicas Peligrosas', org: '2026' },
+                { icon: 'fas fa-forklift', cls: 'green', name: 'Manejo Seguro de Montacargas', org: '2026' },
+                { icon: 'fas fa-truck', cls: 'green', name: 'Manejo Seguro de Tractor', org: '2026' },
+                { icon: 'fas fa-shield-alt', cls: 'green', name: 'Cumplimiento Legal de Seguridad', org: '2026' },
+                { icon: 'fas fa-globe', cls: 'green', name: 'ISO 45001:2018 — Gestión de Seguridad y Salud en el Trabajo', org: '2024 · Actualización 2026' }
+            ],
+            // Regular certs
+            certs: [
+                { icon: 'fas fa-award', name: 'Excel Avanzado', org: 'A2 Capacitaciones · 2022' },
+                { icon: 'fas fa-award', name: '5 Reglas de Oro — Admón. de Almacenes', org: 'Quality Training · 2012 · 12 hrs' },
+                { icon: 'fas fa-award', name: 'ISO 9000 en la Pequeña Empresa', org: 'CONALEP · 2001 · 40 hrs' },
+                { icon: 'fas fa-award', name: 'Metodología 5S', org: 'ITA · 2001' },
+                { icon: 'fas fa-award', name: 'Bootcamp Diseño de Páginas Web', org: 'Inadaptados Academy · Nov – Dic 2024' }
+            ]
+        },
+        en: {
+            profile: `Industrial Engineer with <strong>over 20 years of experience</strong> leading logistics operations,
+            warehouse management, and manufacturing at world-class multinationals including
+            <strong>Nissan Mexicana</strong>, <strong>COMPAS Manufacturing</strong>, <strong>Bonafont/Danone</strong>, and <strong>Sensata Technologies</strong>. Specialist in
+            <span class="highlight">inventory control, lean manufacturing, and JIT/JIS supply</span>
+            for high-volume automotive production lines. ISO 45001:2018 certified.`,
+            profile2: `Currently in active transition toward <strong>Data Science and Artificial Intelligence</strong>,
+            with self-built tech projects developed in <strong>JavaScript, HTML, CSS, and API integrations</strong>.
+            Proven ability to combine the industrial engineer's operational mindset with digital tools that generate
+            <span class="highlight">measurable efficiency and competitive advantage</span>.`,
+            edu: [
+                { title: 'B.S. in Industrial Engineering', inst: 'Instituto Tecnológico de Aguascalientes', year: 'Class of 2001 – 2005', amber: false },
+                { title: 'Data Science &amp; AI — In training', inst: 'Self-taught + Online Platforms', year: '2024 – Present', amber: true }
+            ],
+            jobs: [
+                {
+                    title: 'Materials Handling Supervisor',
+                    company: 'COMPAS Manufacturing — Nissan Plant Aguascalientes',
+                    sub: 'Areas: Trim &amp; Chassis · Stamping · Warehouse D3 · Up to 1,400 active SKUs',
+                    date: 'Jul 2019 – May 2026', current: true,
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Key Achievement</span> Reduced <strong>Downtime due to material shortage from 89% to less than 3 minutes per month</strong> through strict JIT/JIS supply control for high-volume C5–C8 lines.' },
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Own Initiative</span> Design and implementation of the <strong>QAM System</strong> — shortage detection scanner at line material intake, directly driving Downtime reduction and <span class="metric-tag">DPHU &lt; 3 units/month</span>.' },
+                        { icon: 'check', text: 'Full management of Stamping and D3 warehouses: receiving, storage, control of up to 1,400 active SKUs, and dispatching to the automotive production line.' },
+                        { icon: 'check', text: 'Supervision of sub-assemblies, pre-picking, and parts modulation in B&amp;K zone for continuous production on high-cadence C5–C8 lines.' },
+                        { icon: 'check', text: 'Monitoring and improvement of critical KPIs: <span class="metric-tag">Downtime</span> <span class="metric-tag">PPOF</span> <span class="metric-tag">DPHU</span>' },
+                        { icon: 'check', text: 'Implementation and maintenance of <strong>5S</strong> methodology and visual controls with audited results.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Led up to 34 employees in 24/7 operations</span>' }
+                    ]
+                },
+                {
+                    title: 'Receiving Warehouse Supervisor',
+                    company: 'Nissan Mexicana',
+                    sub: 'Aguascalientes Plant — Inbound Logistics',
+                    date: 'Dec 2014 – May 2019', current: false,
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Key Achievement</span> Co-developed and implemented a <strong>warehouse digitalization system</strong> — reduced transport unloading time from <span class="metric-tag">1:20 → 40 min</span> and empty-equipment documentation from <span class="metric-tag">60 → 38 min</span>.' },
+                        { icon: 'check', text: 'Coordinated inbound materials from domestic and international suppliers under <strong>JIT/JIS</strong> scheme.' },
+                        { icon: 'check', text: 'Receipt reconciliation with Finance, ensuring clean accounting close with zero discrepancies.' },
+                        { icon: 'check', text: 'Annual fiscal inventories with accuracy of <strong>98.6% to 99.8%</strong>, maintaining zero inconsistencies in Finance reconciliation.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Led 11 employees</span>' }
+                    ]
+                },
+                {
+                    title: 'Regional Logistics Manager',
+                    company: 'Envasadoras de Aguas (Bonafont / Danone)',
+                    companyAmber: true,
+                    sub: '',
+                    date: 'Jan 2014 – Dec 2014', current: false, amber: true,
+                    bullets: [
+                        { icon: 'check', text: 'Simultaneous logistics coordination across <strong>2 production plants</strong> (Aguascalientes &amp; SLP) and <strong>2 distribution centers</strong> (Zacatecas &amp; Fresnillo), achieving <span class="metric-tag">98% regional fill rate</span>.' },
+                        { icon: 'check', text: 'Stock control and supply planning for seasonal products with high demand variability. Operations under <strong>FIFO/FEFO</strong> methodology.' },
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Own Initiative</span> Implemented a <strong>freight expense tracking and control system</strong> — an area that previously operated with no formal KPIs.' },
+                        { icon: 'check', text: 'Coordinated with Purchasing for timely materials acquisition and order management.' }
+                    ]
+                },
+                {
+                    title: 'Warehouse Supervisor',
+                    company: 'Sensata Technologies',
+                    companyAmber: true,
+                    sub: 'Aguascalientes',
+                    date: 'May 2013 – Nov 2013', current: false, amber: true,
+                    bullets: [
+                        { icon: 'check', text: 'Warehouse management: inbound materials receiving and finished goods shipping.' },
+                        { icon: 'check', text: 'Inventory control using <strong>Oracle</strong> warehouse management system.' },
+                        { icon: 'check', text: 'Implementation of <strong>Lean Manufacturing</strong> in warehouse processes.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Led 18 employees</span>' }
+                    ]
+                },
+                {
+                    title: 'Receiving &amp; Warehouse Lead',
+                    company: 'Vianney Textil Hogar',
+                    sub: 'Aguascalientes',
+                    date: 'Mar 2010 – May 2013', current: false,
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Key Achievement</span> Full <strong>warehouse layout redesign</strong> — reduced order prep time from <span class="metric-tag">2:00 → 1:10 hr</span>, operator walking from <span class="metric-tag">~14 km → ~5.6 km/day</span>, and fill rate from <span class="metric-tag">89% → 97%</span>.' },
+                        { icon: 'check', text: 'Full management of finished goods and materials warehouse: receiving, storage, and order fulfillment.' },
+                        { icon: 'team', text: '<span class="logro-pill"><i class="fas fa-users"></i> Led 35 employees</span>' }
+                    ]
+                },
+                {
+                    title: 'Warehouse Manager',
+                    company: 'Amitech México S.A. de C.V.',
+                    companyAmber: true,
+                    sub: '',
+                    date: 'Apr 2009 – Feb 2010', current: false, amber: true,
+                    bullets: [
+                        { icon: 'check', text: 'Management of raw materials and finished goods warehouse: receiving, inventory control, and customer dispatch.' },
+                        { icon: 'check', text: 'Implemented materials planning based on current inventory and production plan, ensuring availability without overstock.' },
+                        { icon: 'check', text: 'Customer shipment coordination, invoice management, and transport scheduling for on-time delivery.' }
+                    ]
+                },
+                {
+                    title: 'Shipping Warehouse Staff',
+                    company: 'Sistema de Arneses K&amp;S Mexicana',
+                    sub: '',
+                    date: 'May 2005 – Oct 2008', current: false,
+                    bullets: [
+                        { icon: 'check', text: 'Control and management of packaging materials, ensuring continuous supply to automotive harness production lines.' },
+                        { icon: 'check', text: 'Import customs clearance management — coordination with customs agents for timely release of international materials.' },
+                        { icon: 'check', text: 'Periodic inventory reconciliation ensuring stock accuracy and material traceability.' },
+                        { icon: 'check', text: 'Customer shipments and invoice management, ensuring on-time delivery compliance.' }
+                    ]
+                }
+            ],
+            achievements: [
+                { icon: 'fas fa-microchip', text: 'Nissan warehouse digitalization: reduced unloading time from <strong>1:20 → 40 min</strong> and improved real-time traceability.' },
+                { icon: 'fas fa-chart-line', text: 'QAM System (own initiative) at COMPAS: Downtime from <strong>89% → less than 3 min/month</strong> and DPHU below 3 units.' },
+                { icon: 'fas fa-users-cog', text: 'Led teams of up to <strong>35 people</strong> in 24/7 automotive manufacturing operations.' },
+                { icon: 'fas fa-network-wired', text: 'Multi-site logistics: <strong>2 plants + 2 DCs</strong> simultaneously at Bonafont/Danone with 98% fill rate.' },
+                { icon: 'fas fa-warehouse', text: 'Layout redesign at Vianney: fill rate <strong>89% → 97%</strong> and operator walking reduced from <strong>14 km → 5.6 km/day</strong>.' },
+                { icon: 'fas fa-code', text: '6 fully functional digital products built <strong>from scratch</strong> with no prior programming experience.' }
+            ],
+            skills: [
+                { label: 'Excel / Google Sheets Advanced', pct: 95 },
+                { label: 'Inventory Management / WMS', pct: 92 },
+                { label: 'Lean Manufacturing / 5S / Kaizen', pct: 88 },
+                { label: 'Data Analysis / KPIs', pct: 80 },
+                { label: 'JavaScript / HTML / CSS', pct: 72 },
+                { label: 'Technical English', pct: 80 }
+            ],
+            tags: [
+                { text: 'JIT / JIS', cls: 'blue' }, { text: 'Supply Chain', cls: 'blue' }, { text: 'MRP / ERP', cls: 'blue' },
+                { text: 'Lean Mfg.', cls: 'green' }, { text: 'Kaizen', cls: 'green' }, { text: '5S', cls: 'green' }, { text: 'ISO 45001', cls: 'green' },
+                { text: 'AI APIs', cls: 'amber' }, { text: 'Data Science', cls: 'amber' }, { text: 'Chrome Extensions', cls: 'amber' },
+                { text: 'Leadership', cls: '' }, { text: 'Supervision', cls: '' }, { text: 'KPIs', cls: '' }, { text: 'Fiscal Inventories', cls: '' }, { text: 'ISO 9000', cls: '' },
+                { text: 'Oracle', cls: '' }, { text: 'WMS', cls: '' }, { text: 'FIFO / FEFO', cls: '' }, { text: 'Forklift', cls: '' },
+                { text: 'Power BI', cls: 'blue' }, { text: 'Slotting Optimization', cls: 'blue' }
+            ],
+            safetyCerts: [
+                { icon: 'fas fa-fire-extinguisher', cls: 'green', name: 'Emergency Evacuation Brigade', org: '2026' },
+                { icon: 'fas fa-chair', cls: 'green', name: 'Workplace Ergonomics', org: '2026' },
+                { icon: 'fas fa-flask', cls: 'green', name: 'Hazardous Chemical Substances — Handling, ID, Storage &amp; Transport', org: '2026' },
+                { icon: 'fas fa-forklift', cls: 'green', name: 'Safe Forklift Operation', org: '2026' },
+                { icon: 'fas fa-truck', cls: 'green', name: 'Safe Tractor Operation', org: '2026' },
+                { icon: 'fas fa-shield-alt', cls: 'green', name: 'Safety Legal Compliance', org: '2026' },
+                { icon: 'fas fa-globe', cls: 'green', name: 'ISO 45001:2018 — Occupational Health &amp; Safety Management', org: '2024 · Updated 2026' }
+            ],
+            certs: [
+                { icon: 'fas fa-award', name: 'Advanced Excel', org: 'A2 Capacitaciones · 2022' },
+                { icon: 'fas fa-award', name: '5 Golden Rules — Warehouse Management', org: 'Quality Training · 2012 · 12 hrs' },
+                { icon: 'fas fa-award', name: 'ISO 9000 for Small Business', org: 'CONALEP · 2001 · 40 hrs' },
+                { icon: 'fas fa-award', name: '5S Methodology', org: 'ITA · 2001' },
+                { icon: 'fas fa-award', name: 'Web Design Bootcamp', org: 'Inadaptados Academy · Nov – Dec 2024' }
+            ]
+        }
+    };
+
+    let currentLang = 'es';
+
+    function buildBullet(b) {
+        const iconMap = {
+            star: '<i class="fas fa-star star"></i>',
+            check: '<i class="fas fa-circle-check"></i>',
+            team: '<i class="fas fa-users team"></i>'
+        };
+        return `<div class="bullet">${iconMap[b.icon]}<span>${b.text}</span></div>`;
+    }
+
+    function buildJob(j) {
+        const dotCls = j.amber ? 'job-dot amber' : 'job-dot';
+        const dateCls = j.current ? 'date-badge current' : (j.amber ? 'date-badge amber' : 'date-badge');
+        const companyCls = j.companyAmber ? 'job-company" style="color:#d97706;' : 'job-company';
+        const subHtml = j.sub ? `<div class="job-sub">${j.sub}</div>` : '';
+        return `<div class="job">
+            <div class="${dotCls}"></div>
+            <div class="job-header">
+                <div>
+                    <div class="job-title">${j.title}</div>
+                    <div class="${companyCls}">${j.company}</div>
+                    ${subHtml}
+                </div>
+                <span class="${dateCls}">${j.date}</span>
+            </div>
+            <div class="job-bullets">${j.bullets.map(buildBullet).join('')}</div>
+        </div>`;
+    }
+
+    function toggleLang() {
+        currentLang = currentLang === 'es' ? 'en' : 'es';
+        applyLang(currentLang);
+    }
+
+    function applyLang(lang) {
+        const t = translations[lang];
+        const c = content[lang];
+
+        document.documentElement.lang = t.docLang;
+        document.getElementById('lang-btn').textContent = t.btnLabel;
+
+        // Header
+        document.getElementById('header-badge').innerHTML = t.badge;
+        document.getElementById('header-title-line').innerHTML = t.titleLine;
+        document.getElementById('info-age').innerHTML = `<i class="fas fa-birthday-cake"></i> ${t.age}`;
+        document.getElementById('info-marital').innerHTML = `<i class="fas fa-ring"></i> ${t.marital}`;
+        document.getElementById('chip-wa').innerHTML = `<i class="fab fa-whatsapp"></i> ${t.waLinkText}`;
+
+        // Stats
+        document.getElementById('stat-exp').textContent = t.statExp;
+        document.getElementById('stat-team').textContent = t.statTeam;
+        document.getElementById('stat-comp').textContent = t.statComp;
+        document.getElementById('stat-proj').textContent = t.statProj;
+        document.getElementById('stat-eng').textContent = t.statEng;
+
+        // Section titles
+        document.getElementById('sec-edu').innerHTML = t.secEdu;
+        document.getElementById('sec-profile').innerHTML = t.secProfile;
+        document.getElementById('sec-exp').innerHTML = t.secExp;
+        document.getElementById('sec-safety').innerHTML = t.secSafety;
+        document.getElementById('sec-certs').innerHTML = t.secCerts;
+        document.getElementById('sec-projects').innerHTML = t.secProjects;
+        document.getElementById('sec-achiev').innerHTML = t.secAchiev;
+        document.getElementById('sec-skills').innerHTML = t.secSkills;
+        document.getElementById('sec-tags').innerHTML = t.secTags;
+        document.getElementById('sec-contact').innerHTML = t.secContact;
+
+        // Safety badge
+        document.getElementById('safety-badge').textContent = t.safetyBadge;
+
+        // Projects intro
+        document.getElementById('projects-intro').textContent = t.projectsIntro;
+
+        // Footer
+        document.getElementById('footer-sub').textContent = t.footerSub;
+
+        // Contact
+        document.getElementById('contact-wa').textContent = t.waContactText;
+
+        // Profile
+        document.getElementById('profile-p1').innerHTML = c.profile;
+        document.getElementById('profile-p2').innerHTML = c.profile2;
+
+        // Education
+        const eduGrid = document.getElementById('edu-grid');
+        eduGrid.innerHTML = c.edu.map(e => `
+            <div class="edu-item${e.amber ? ' amber' : ''}">
+                <div class="edu-title">${e.title}</div>
+                <div class="edu-inst${e.amber ? ' amber' : ''}">${e.inst}</div>
+                <div class="edu-year">${e.year}</div>
+            </div>`).join('');
+
+        // Jobs
+        document.getElementById('timeline').innerHTML = c.jobs.map(buildJob).join('');
+
+        // Achievements
+        document.getElementById('logros-grid').innerHTML = c.achievements.map(a =>
+            `<div class="logro-item"><i class="${a.icon}"></i><span>${a.text}</span></div>`).join('');
+
+        // Skills
+        document.getElementById('skills-grid').innerHTML = c.skills.map(s => `
+            <div>
+                <div class="skill-header"><span>${s.label}</span><span class="skill-pct">${s.pct}%</span></div>
+                <div class="skill-track"><div class="skill-fill" data-w="${s.pct}" style="width:${s.pct}%"></div></div>
+            </div>`).join('');
+
+        // Tags
+        document.getElementById('tags-cloud').innerHTML = c.tags.map(tag =>
+            `<span class="tag${tag.cls ? ' ' + tag.cls : ''}">${tag.text}</span>`).join('');
+
+        // Safety certs
+        document.getElementById('safety-certs').innerHTML = c.safetyCerts.map(cert =>
+            `<div class="cert-item ${cert.cls}"><i class="${cert.icon}"></i><div><div class="cert-name">${cert.name}</div><div class="cert-org">${cert.org}</div></div></div>`).join('');
+
+        // Regular certs
+        document.getElementById('certs-grid').innerHTML = c.certs.map(cert =>
+            `<div class="cert-item"><i class="${cert.icon}"></i><div><div class="cert-name">${cert.name}</div><div class="cert-org">${cert.org}</div></div></div>`).join('');
+    }
+
+    // ─── END LANGUAGE TOGGLE ───────────────────────────────────────────────────
+
     // Fade-up animation
     const fadeObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
