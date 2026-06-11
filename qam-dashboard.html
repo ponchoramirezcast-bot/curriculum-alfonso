@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QAM Dashboard — Almacén D3 | COMPAS Manufacturing</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500;600&family=Barlow+Semi+Condensed:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #21262d;
+  --border: rgba(255,255,255,0.08);
+  --red: #ff4d4d;
+  --amber: #f5a623;
+  --green: #2dce89;
+  --blue: #4dabf7;
+  --teal: #20c997;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #f5a623;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0d1117 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 40px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--amber), var(--green), var(--teal));
+}
+.header-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.header-left .badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.header-left h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.header-left h1 span { color: var(--amber); }
+.header-left .subtitle {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 300;
+}
+.header-right {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-chip {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Barlow Semi Condensed', sans-serif;
+}
+.header-chip strong { color: var(--text); }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+}
+.tab {
+  padding: 14px 24px;
+  cursor: pointer;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+
+/* CONTENT */
+.content { padding: 32px 40px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* KPI ROW */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.kpi.red::before { background: var(--red); }
+.kpi.amber::before { background: var(--amber); }
+.kpi.green::before { background: var(--green); }
+.kpi.blue::before { background: var(--blue); }
+.kpi.teal::before { background: var(--teal); }
+
+.kpi-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+}
+.kpi.red .kpi-value { color: var(--red); }
+.kpi.amber .kpi-value { color: var(--amber); }
+.kpi.green .kpi-value { color: var(--green); }
+.kpi.blue .kpi-value { color: var(--blue); }
+.kpi.teal .kpi-value { color: var(--teal); }
+.kpi-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* CHART CARDS */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.charts-grid.full { grid-template-columns: 1fr; }
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 24px;
+}
+.chart-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chart-title .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chart-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.chart-wrap {
+  position: relative;
+  height: 240px;
+}
+.chart-wrap.tall { height: 300px; }
+.chart-wrap.short { height: 180px; }
+
+/* QAM BEFORE/AFTER BANNER */
+.qam-banner {
+  background: linear-gradient(135deg, rgba(255,77,77,0.08) 0%, rgba(45,206,137,0.08) 100%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.qam-side {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+}
+.qam-side .label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+.qam-side .big {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+}
+.qam-side.before .big { color: var(--red); }
+.qam-side.after .big { color: var(--green); }
+.qam-side .unit {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.qam-arrow {
+  font-size: 32px;
+  color: var(--amber);
+  font-weight: 800;
+}
+.qam-reduction {
+  flex: 1;
+  min-width: 180px;
+  text-align: center;
+  background: rgba(245,166,35,0.07);
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius: 10px;
+  padding: 16px;
+}
+.qam-reduction .pct {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--amber);
+  line-height: 1;
+}
+.qam-reduction .desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* CAUSA TABLE */
+.causa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.causa-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.causa-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text);
+}
+.causa-table tr:hover td { background: rgba(255,255,255,0.02); }
+.bar-mini {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--red);
+  transition: width 0.8s ease;
+}
+.bar-mini.green { background: var(--green); }
+.bar-mini.amber { background: var(--amber); }
+.bar-mini.blue { background: var(--blue); }
+
+/* INSIGHT BOXES */
+.insights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.insight {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--amber);
+}
+.insight.green { border-left-color: var(--green); }
+.insight.red { border-left-color: var(--red); }
+.insight.blue { border-left-color: var(--blue); }
+.insight-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 5px;
+}
+.insight.green .insight-title { color: var(--green); }
+.insight.red .insight-title { color: var(--red); }
+.insight.blue .insight-title { color: var(--blue); }
+.insight p { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.insight p strong { color: var(--text); }
+
+/* QAM TIMELINE */
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+.timeline-line {
+  position: absolute;
+  left: 20px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--red), var(--amber), var(--green));
+}
+.timeline-item {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-left: 52px;
+  position: relative;
+}
+.timeline-dot {
+  position: absolute;
+  left: 11px;
+  top: 4px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  flex-shrink: 0;
+}
+.timeline-dot.red { background: var(--red); }
+.timeline-dot.amber { background: var(--amber); }
+.timeline-dot.green { background: var(--green); }
+.timeline-dot.teal { background: var(--teal); }
+.timeline-date {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+  min-width: 80px;
+  margin-top: 3px;
+}
+.timeline-body .title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.timeline-body p {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px 40px;
+  color: var(--muted);
+  font-size: 11px;
+  border-top: 1px solid var(--border);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 700px) {
+  .content { padding: 20px 16px; }
+  .header { padding: 20px 16px 18px; }
+  .tabs { padding: 0 16px; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .qam-banner { flex-direction: column; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-grid">
+    <div class="header-left">
+      <div class="badge">Performance Report · Almacén D3</div>
+      <h1>QAM <span>IMPACT</span> DASHBOARD</h1>
+      <div class="subtitle">COMPAS Manufacturing / Nissan · Supervisor: J.A. Ramírez · 2022–2026</div>
+    </div>
+    <div class="header-right">
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.35);color:#f5a623;border-radius:20px;padding:6px 14px;font-size:12px;text-decoration:none;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;">&larr; Volver al CV</a>
+      <div class="header-chip"><strong>Área:</strong> D3 Assembly Kit Supply</div>
+      <div class="header-chip"><strong>Responsable:</strong> Man. Mat. ENS.</div>
+      <div class="header-chip"><strong>QAM Inicio:</strong> Feb 2023</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Resumen Ejecutivo</div>
+  <div class="tab" onclick="showTab('before')">2022 — Antes QAM</div>
+  <div class="tab" onclick="showTab('transition')">2023 — Implementación</div>
+  <div class="tab" onclick="showTab('after')">2024–2026 — Post QAM</div>
+  <div class="tab" onclick="showTab('qam')">Metodología QAM</div>
+</div>
+
+<div class="content">
+
+<!-- ===== TAB 1: OVERVIEW ===== -->
+<div class="tab-panel active" id="tab-overview">
+
+  <div class="qam-banner">
+    <div class="qam-side before">
+      <div class="label">Antes QAM (2022 avg)</div>
+      <div class="big">172</div>
+      <div class="unit">min/mes de paro</div>
+    </div>
+    <div class="qam-arrow">→</div>
+    <div class="qam-reduction">
+      <div class="pct">97.4%</div>
+      <div class="desc">Reducción de paros<br>en línea de ensamble</div>
+    </div>
+    <div class="qam-arrow">→</div>
+    <div class="qam-side after">
+      <div class="label">Post QAM (2025 avg)</div>
+      <div class="big">&lt;5</div>
+      <div class="unit">min/mes de paro</div>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi red">
+      <div class="kpi-label">Minutos perdidos 2022</div>
+      <div class="kpi-value">2,142</div>
+      <div class="kpi-sub">Total anual (12 meses)</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Minutos perdidos 2023</div>
+      <div class="kpi-value">779</div>
+      <div class="kpi-sub">↓ 63.6% vs 2022</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Minutos perdidos 2024</div>
+      <div class="kpi-value">72</div>
+      <div class="kpi-sub">↓ 90.8% vs 2022</div>
+    </div>
+    <div class="teal kpi">
+      <div class="kpi-label">Minutos perdidos 2025</div>
+      <div class="kpi-value">45</div>
+      <div class="kpi-sub">↓ 97.9% vs 2022</div>
+    </div>
+    <div class="blue kpi">
+      <div class="kpi-label">2026 YTD (5 meses)</div>
+      <div class="kpi-value">18</div>
+      <div class="kpi-sub">3.6 min promedio/mes</div>
+    </div>
+  </div>
+
+  <div class="charts-grid full">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--amber)"></span>Evolución Anual de Paros — 2022 a 2026</div>
+      <div class="chart-sub">Total de minutos de paro de línea por causa de Almacén D3 · Impacto del Sistema QAM desde Feb 2023</div>
+      <div class="chart-wrap tall">
+        <canvas id="chartOverview"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--red)"></span>Distribución por Causa — 2022</div>
+      <div class="chart-sub">Top causas de paro antes de QAM</div>
+      <div class="chart-wrap">
+        <canvas id="chartCausa2022"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--green)"></span>Distribución por Causa — 2025</div>
+      <div class="chart-sub">Causas residuales post QAM</div>
+      <div class="chart-wrap">
+        <canvas id="chartCausa2025"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="insights">
+    <div class="insight red">
+      <div class="insight-title">🔴 Problema Identificado (2022)</div>
+      <p>Los paros de línea por falta o error de material en kit cars alcanzaban hasta <strong>318 min en un solo mes</strong> (Agosto 2022). Las causas principales eran <strong>DAÑO (30%), FALTANTE (29%) y EQUIVALOCADO (15%)</strong>.</p>
+    </div>
+    <div class="insight amber">
+      <div class="insight-title">⚡ Acción QAM (Feb 2023)</div>
+      <p>Implementación de checkpoint <strong>QAM (Quality Assurance Man)</strong> antes de que los kit cars lleguen a línea. Verificación por escaneo de especificaciones y revisión de partes de alto riesgo.</p>
+    </div>
+    <div class="insight green">
+      <div class="insight-title">✅ Resultado 2024–2026</div>
+      <p>Paros prácticamente eliminados. Promedio mensual de <strong>6 min en 2024</strong>, <strong>3.7 min en 2025</strong> y <strong>3.6 min en 2026</strong>. ROI inmediato en producción Nissan.</p>
+    </div>
+    <div class="insight blue">
+      <div class="insight-title">💵 Impacto Financiero Estimado</div>
+      <p>A un costo referenciado de <strong>$1,400 USD/min</strong> de paro, el sistema QAM genera un ahorro estimado de <strong>~$2.9M USD anuales</strong> desde 2024. Acumulado 2023–2025: <strong>~$7.7M USD</strong> recuperados.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: BEFORE ===== -->
+<div class="tab-panel" id="tab-before">
+
+  <div class="kpi-row">
+    <div class="kpi red">
+      <div class="kpi-label">Total minutos 2022</div>
+      <div class="kpi-value">2,142</div>
+      <div class="kpi-sub">626 eventos registrados</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Mes pico</div>
+      <div class="kpi-value">318</div>
+      <div class="kpi-sub">Agosto 2022</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Promedio mensual</div>
+      <div class="kpi-value">178</div>
+      <div class="kpi-sub">min/mes</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Causa #1</div>
+      <div class="kpi-value">DAÑO</div>
+      <div class="kpi-sub">511 min · 30%</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Status No Aceptado</div>
+      <div class="kpi-value">43%</div>
+      <div class="kpi-sub">Imputable a externo</div>
+    </div>
+  </div>
+
+  <div class="charts-grid full">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--red)"></span>Minutos de Paro por Mes — 2022</div>
+      <div class="chart-sub">Datos reales Ene–Oct + proyección Nov–Dic basada en tendencia histórica</div>
+      <div class="chart-wrap tall">
+        <canvas id="chart2022monthly"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--red)"></span>Minutos por Causa de Afectación</div>
+      <div class="chart-sub">Distribución total anual 2022</div>
+      <div class="chart-wrap">
+        <canvas id="chartCausaBar2022"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--amber)"></span>Top 10 Piezas con más Paros</div>
+      <div class="chart-sub">Por minutos acumulados 2022</div>
+      <div class="chart-wrap">
+        <canvas id="chartPiezas2022"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-top:20px">
+    <div class="chart-title"><span class="dot" style="background:var(--amber)"></span>Estatus de Cargo — Aceptado vs No Aceptado</div>
+    <div class="chart-sub">Minutos por mes según responsabilidad</div>
+    <div class="chart-wrap">
+      <canvas id="chartStatus2022"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 3: TRANSITION ===== -->
+<div class="tab-panel" id="tab-transition">
+
+  <div class="kpi-row">
+    <div class="kpi amber">
+      <div class="kpi-label">Enero 2023</div>
+      <div class="kpi-value">216</div>
+      <div class="kpi-sub">Sin QAM aún</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Feb 2023</div>
+      <div class="kpi-value">142</div>
+      <div class="kpi-sub">↓ QAM arranca</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Jun 2023</div>
+      <div class="kpi-value">54</div>
+      <div class="kpi-sub">↓ 75% vs Ene</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Dic 2023</div>
+      <div class="kpi-value">3</div>
+      <div class="kpi-sub">Meta alcanzada</div>
+    </div>
+    <div class="kpi teal">
+      <div class="kpi-label">Total 2023</div>
+      <div class="kpi-value">779</div>
+      <div class="kpi-sub">↓ 63.6% vs 2022</div>
+    </div>
+  </div>
+
+  <div class="charts-grid full">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--amber)"></span>Curva de Reducción 2023 — Implementación QAM</div>
+      <div class="chart-sub">Reducción gradual de minutos de paro desde Feb 2023 · Línea de meta: ≤10 min/mes</div>
+      <div class="chart-wrap tall">
+        <canvas id="chart2023monthly"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--green)"></span>Velocidad de Reducción</div>
+      <div class="chart-sub">% de reducción acumulada vs Enero 2023</div>
+      <div class="chart-wrap">
+        <canvas id="chartReduction"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--blue)"></span>Comparativo Sem. 1 vs Sem. 2 — 2023</div>
+      <div class="chart-sub">Minutos antes vs después del punto de inflexión (Jul)</div>
+      <div class="chart-wrap">
+        <canvas id="chartSemestres"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 4: AFTER ===== -->
+<div class="tab-panel" id="tab-after">
+
+    <div class="kpi-row">
+    <div class="kpi green">
+      <div class="kpi-label">Promedio 2024</div>
+      <div class="kpi-value">6.0</div>
+      <div class="kpi-sub">min/mes · Total 72</div>
+    </div>
+    <div class="kpi teal">
+      <div class="kpi-label">Promedio 2025</div>
+      <div class="kpi-value">3.75</div>
+      <div class="kpi-sub">min/mes · Total 45</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Promedio 2026 YTD</div>
+      <div class="kpi-value">3.6</div>
+      <div class="kpi-sub">min/mes · Total 18</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Reducción total</div>
+      <div class="kpi-value">97.9%</div>
+      <div class="kpi-sub">vs línea base 2022</div>
+    </div>
+    <div class="kpi teal">
+      <div class="kpi-label">Min recuperados/año</div>
+      <div class="kpi-value">2,097</div>
+      <div class="kpi-sub">Desde 2024 vs 2022</div>
+    </div>
+  </div>
+
+  <!-- FINANCIAL IMPACT ROW -->
+  <div class="kpi-row">
+    <div class="kpi amber">
+      <div class="kpi-label">Costo ref. minuto paro</div>
+      <div class="kpi-value" style="font-size:26px;">$1,400</div>
+      <div class="kpi-sub">USD/min · Tier 1 automotriz</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Costo perdido 2022</div>
+      <div class="kpi-value" style="font-size:26px;">$3.0M</div>
+      <div class="kpi-sub">USD · 2,142 min × $1,400</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Ahorro 2023</div>
+      <div class="kpi-value" style="font-size:26px;">$1.9M</div>
+      <div class="kpi-sub">USD · 1,363 min recuperados</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Ahorro 2024</div>
+      <div class="kpi-value" style="font-size:26px;">$2.9M</div>
+      <div class="kpi-sub">USD · 2,070 min recuperados</div>
+    </div>
+    <div class="kpi teal">
+      <div class="kpi-label">Ahorro acumulado 23–25</div>
+      <div class="kpi-value" style="font-size:26px;">$7.7M</div>
+      <div class="kpi-sub">USD estimado total</div>
+    </div>
+  </div>
+
+  <div class="charts-grid full">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--green)"></span>Estado Controlado 2024–2026 — Minutos de Paro por Mes</div>
+      <div class="chart-sub">Sistema QAM en operación estable · Meta ≤10 min/mes</div>
+      <div class="chart-wrap tall">
+        <canvas id="chartPostQAM"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--teal)"></span>Comparativo Anual 2022–2026</div>
+      <div class="chart-sub">Total minutos de paro por año</div>
+      <div class="chart-wrap">
+        <canvas id="chartAnual"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--amber)"></span>Impacto Financiero Estimado</div>
+      <div class="chart-sub">Ahorro anual en USD · Referencia $1,400/min · Tier 1 automotriz</div>
+      <div class="chart-wrap">
+        <canvas id="chartFinancial"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 5: QAM METHOD ===== -->
+<div class="tab-panel" id="tab-qam">
+
+  <div class="kpi-row">
+    <div class="kpi amber">
+      <div class="kpi-label">Sistema</div>
+      <div class="kpi-value" style="font-size:24px;">QAM</div>
+      <div class="kpi-sub">Quality Assurance Man</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Diseñado por</div>
+      <div class="kpi-value" style="font-size:18px;">J.A.R.C.</div>
+      <div class="kpi-sub">Supervisor D3</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Fecha inicio</div>
+      <div class="kpi-value" style="font-size:24px;">Feb</div>
+      <div class="kpi-sub">2023</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Resultado</div>
+      <div class="kpi-value" style="font-size:20px;">&lt;3 min</div>
+      <div class="kpi-sub">Paro/mes objetivo</div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card" style="grid-column: 1/-1;">
+      <div class="chart-title">📋 Cronología de Implementación QAM</div>
+      <div class="chart-sub" style="margin-bottom:24px;">De la detección del problema a la solución estable</div>
+      <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-date">Ene–Ago 2022</div>
+          <div class="timeline-body">
+            <div class="title">🔴 Problema Crítico Detectado</div>
+            <p>Paros de línea recurrentes por piezas faltantes, dañadas o equivocadas en kit cars. El mes de Agosto alcanzó <strong>318 minutos de paro</strong>. Principales causas: DAÑO, FALTANTE, EQUIVALOCADO durante el trayecto del kit car al ensamble.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot amber"></div>
+          <div class="timeline-date">Sep–Dic 2022</div>
+          <div class="timeline-body">
+            <div class="title">🔍 Análisis y Diseño de Solución</div>
+            <p>Identificación de las causas raíz: vibración durante traslado, falta de verificación pre-entrega, ausencia de checkpoint entre almacén y línea. Se diseñó el sistema QAM con base en análisis de frecuencia por pieza y turno.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot amber"></div>
+          <div class="timeline-date">Ene 2023</div>
+          <div class="timeline-body">
+            <div class="title">⚙️ Piloto y Ajustes</div>
+            <p>Mes de transición. Se arranca el piloto del QAM en turno 1. Los primeros resultados muestran reducción aunque aún hay inercia del problema. Capacitación al personal de verificación.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot green"></div>
+          <div class="timeline-date">Feb–Jun 2023</div>
+          <div class="timeline-body">
+            <div class="title">✅ Implementación Total QAM</div>
+            <p>El checkpoint QAM opera en todos los turnos. Cada kit car es verificado antes de entrar a la línea: <strong>(1) revisión de piezas de alto riesgo por escáner, (2) validación de especificación por código, (3) confirmación física de componentes críticos</strong>. Reducción del 75% en 5 meses.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot green"></div>
+          <div class="timeline-date">Jul–Dic 2023</div>
+          <div class="timeline-body">
+            <div class="title">📉 Estabilización del Sistema</div>
+            <p>El sistema alcanza su madurez operativa. Los paros de línea se reducen a niveles residuales. Diciembre 2023 registra <strong>3 minutos</strong>, confirmando el éxito del sistema.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--teal)"></div>
+          <div class="timeline-date">2024–2026</div>
+          <div class="timeline-body">
+            <div class="title">🏆 Operación Controlada y Sostenida</div>
+            <p>El sistema QAM opera de forma estándar. Promedio mensual inferior a <strong>6 minutos en 2024</strong>, <strong>3.75 minutos en 2025</strong>. La solución se convirtió en parte del proceso estándar del almacén D3.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insights" style="margin-top:8px;">
+    <div class="insight">
+      <div class="insight-title">🎯 ¿Qué es el QAM?</div>
+      <p>Un operador especializado ubicado en el <strong>checkpoint previo a línea de ensamble</strong>, cuya función exclusiva es verificar que cada kit car llegue completo y correcto antes de ser entregado.</p>
+    </div>
+    <div class="insight green">
+      <div class="insight-title">📱 Herramienta de Verificación</div>
+      <p>El QAM usa <strong>escáner de código de barras</strong> para validar especificación de piezas críticas y lista de chequeo manual para componentes de alto riesgo histórico identificados en el análisis 2022.</p>
+    </div>
+    <div class="insight blue">
+      <div class="insight-title">💡 Innovación Clave</div>
+      <p>La solución fue diseñada <strong>sin costo de inversión en tecnología</strong>: solo reasignación de recurso humano, lista de verificación y disciplina de proceso. Simple, efectivo, medible.</p>
+    </div>
+    <div class="insight red">
+      <div class="insight-title">📈 ROI del Sistema</div>
+      <p>A un costo de <strong>$1,400 USD/min</strong> de paro (referencia industria automotriz Tier 1), el QAM generó ahorros de <strong>~$1.9M USD en 2023</strong>, <strong>~$2.9M USD en 2024</strong> y <strong>~$2.9M USD en 2025</strong>. Inversión: reasignación de 1 operador. <strong>ROI prácticamente infinito.</strong></p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end content -->
+
+<footer>
+  Dashboard QAM · Almacén D3 · COMPAS Manufacturing / Nissan · Supervisor: José Alfonso Ramírez Castañeda · 2022–2026
+</footer>
+
+<script>
+// =================== DATA ===================
+const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+const data2022 = [85, 192, 167, 149, 276, 209, 41, 318, 113, 173, 204, 215];
+const data2023 = [216, 142, 101, 80, 79, 54, 30, 30, 16, 13, 15, 3];
+const data2024 = [2, 6, 4, 8, 5, 3, 12, 7, 8, 3, 6, 8];
+const data2025 = [2, 5, 3, 4, 3, 8, 4, 2, 6, 2, 5, 1];
+const data2026 = [2, 4, 5, 4, 3];
+
+// Colors
+const C = {
+  red: 'rgba(255,77,77,',
+  amber: 'rgba(245,166,35,',
+  green: 'rgba(45,206,137,',
+  teal: 'rgba(32,201,151,',
+  blue: 'rgba(77,171,247,',
+};
+const solid = (c) => c + '1)';
+const alpha = (c, a) => c + a + ')';
+
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      labels: { color: '#8b949e', font: { family: 'Barlow', size: 12 }, boxWidth: 12 }
+    },
+    tooltip: {
+      backgroundColor: '#21262d',
+      borderColor: 'rgba(255,255,255,0.1)',
+      borderWidth: 1,
+      titleColor: '#e6edf3',
+      bodyColor: '#8b949e',
+      padding: 12
+    }
+  },
+  scales: {
+    x: {
+      ticks: { color: '#8b949e', font: { family: 'Barlow', size: 11 } },
+      grid: { color: 'rgba(255,255,255,0.04)' }
+    },
+    y: {
+      ticks: { color: '#8b949e', font: { family: 'Barlow', size: 11 } },
+      grid: { color: 'rgba(255,255,255,0.06)' }
+    }
+  }
+};
+
+// =================== CHART 1: Overview (yearly totals as line) ===================
+new Chart(document.getElementById('chartOverview'), {
+  type: 'bar',
+  data: {
+    labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    datasets: [
+      {
+        label: '2022',
+        data: data2022,
+        backgroundColor: alpha(C.red, '0.7'),
+        borderColor: solid(C.red),
+        borderWidth: 1,
+        borderRadius: 3,
+      },
+      {
+        label: '2023',
+        data: data2023,
+        backgroundColor: alpha(C.amber, '0.7'),
+        borderColor: solid(C.amber),
+        borderWidth: 1,
+        borderRadius: 3,
+      },
+      {
+        label: '2024',
+        data: data2024,
+        backgroundColor: alpha(C.green, '0.8'),
+        borderColor: solid(C.green),
+        borderWidth: 1,
+        borderRadius: 3,
+      },
+      {
+        label: '2025',
+        data: data2025,
+        backgroundColor: alpha(C.teal, '0.8'),
+        borderColor: solid(C.teal),
+        borderWidth: 1,
+        borderRadius: 3,
+      },
+      {
+        label: '2026',
+        data: [...data2026, ...Array(7).fill(null)],
+        backgroundColor: alpha(C.blue, '0.8'),
+        borderColor: solid(C.blue),
+        borderWidth: 1,
+        borderRadius: 3,
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      ...chartDefaults.plugins,
+      annotation: {}
+    },
+    scales: {
+      ...chartDefaults.scales,
+      y: {
+        ...chartDefaults.scales.y,
+        title: { display: true, text: 'Minutos de paro', color: '#8b949e', font: { family: 'Barlow', size: 11 } }
+      }
+    }
+  }
+});
+
+// =================== CHART: Causa donut 2022 ===================
+new Chart(document.getElementById('chartCausa2022'), {
+  type: 'doughnut',
+  data: {
+    labels: ['DAÑO', 'FALTANTE', 'EQUIV.', 'CORTINAS', 'ATRASO', 'TRANSFERENCIA', 'OTROS'],
+    datasets: [{
+      data: [511, 411, 254, 98, 170, 144, 135],
+      backgroundColor: [
+        alpha(C.red,'0.85'), alpha(C.amber,'0.85'), '#a78bfa88',
+        '#fb923c88', '#60a5fa88', '#34d39988', '#9ca3af88'
+      ],
+      borderColor: '#161b22',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { color: '#8b949e', font: { family: 'Barlow', size: 11 }, boxWidth: 10 } },
+      tooltip: chartDefaults.plugins.tooltip
+    }
+  }
+});
+
+// =================== CHART: Causa donut 2025 ===================
+new Chart(document.getElementById('chartCausa2025'), {
+  type: 'doughnut',
+  data: {
+    labels: ['FALTANTE', 'DAÑO', 'MALA MOD.', 'CORTINAS', 'EQUIV.'],
+    datasets: [{
+      data: [18, 12, 7, 5, 3],
+      backgroundColor: [
+        alpha(C.green,'0.85'), alpha(C.teal,'0.85'), alpha(C.blue,'0.85'),
+        '#60a5fa88', '#a78bfa88'
+      ],
+      borderColor: '#161b22',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { color: '#8b949e', font: { family: 'Barlow', size: 11 }, boxWidth: 10 } },
+      tooltip: chartDefaults.plugins.tooltip
+    }
+  }
+});
+
+// =================== CHART: 2022 monthly bar ===================
+new Chart(document.getElementById('chart2022monthly'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      {
+        label: 'Real',
+        data: [85, 192, 167, 149, 276, 209, 41, 318, 113, 173, null, null],
+        backgroundColor: alpha(C.red, '0.85'),
+        borderColor: solid(C.red), borderWidth: 1, borderRadius: 4
+      },
+      {
+        label: 'Proyectado',
+        data: [null,null,null,null,null,null,null,null,null,null,204,215],
+        backgroundColor: alpha(C.amber, '0.6'),
+        borderColor: solid(C.amber), borderWidth: 1, borderRadius: 4,
+        borderDash: [4,4]
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, title: { display: true, text: 'Minutos', color: '#8b949e', font: { size: 11, family: 'Barlow' } } }
+    }
+  }
+});
+
+// =================== CHART: Causa bar 2022 ===================
+new Chart(document.getElementById('chartCausaBar2022'), {
+  type: 'bar',
+  data: {
+    labels: ['DAÑO', 'FALTANTE', 'EQUIV.', 'ATRASO', 'TRANSF.', 'CORTINAS', 'FALTA COMP.', 'MALA MOD.'],
+    datasets: [{
+      label: 'Minutos',
+      data: [511, 411, 254, 170, 144, 98, 34, 60],
+      backgroundColor: [
+        solid(C.red), alpha(C.red,'0.75'), alpha(C.amber,'0.85'),
+        alpha(C.amber,'0.7'), '#fb923c88', '#60a5fa88', '#a78bfa88', '#34d39988'
+      ],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    indexAxis: 'y',
+    plugins: { ...chartDefaults.plugins, legend: { display: false } }
+  }
+});
+
+// =================== CHART: Top piezas 2022 ===================
+new Chart(document.getElementById('chartPiezas2022'), {
+  type: 'bar',
+  data: {
+    labels: ['OTROS', 'COVER SLIDER', 'FENDER M.', 'ROCKET P.', 'WIPPER', 'LUG SIDE', 'AIR BAG', 'ORNAMENTAL', 'LOWER M.', 'CTR CONSOLE'],
+    datasets: [{
+      label: 'Minutos',
+      data: [345, 94, 98, 76, 60, 72, 56, 57, 38, 52],
+      backgroundColor: alpha(C.amber, '0.75'),
+      borderColor: solid(C.amber),
+      borderWidth: 1, borderRadius: 3
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    indexAxis: 'y',
+    plugins: { ...chartDefaults.plugins, legend: { display: false } }
+  }
+});
+
+// =================== CHART: Status 2022 ===================
+new Chart(document.getElementById('chartStatus2022'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      {
+        label: 'Aceptado',
+        data: [54, 94, 99, 87, 143, 121, 36, 220, 90, 14, 118, 125],
+        backgroundColor: alpha(C.green, '0.7'),
+        borderRadius: 3
+      },
+      {
+        label: 'No Aceptado',
+        data: [31, 98, 68, 62, 133, 88, 5, 98, 23, 0, 86, 90],
+        backgroundColor: alpha(C.red, '0.7'),
+        borderRadius: 3
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      ...chartDefaults.scales,
+      x: { ...chartDefaults.scales.x, stacked: true },
+      y: { ...chartDefaults.scales.y, stacked: true }
+    }
+  }
+});
+
+// =================== CHART: 2023 reduction ===================
+new Chart(document.getElementById('chart2023monthly'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      {
+        label: 'Minutos de paro',
+        data: data2023,
+        backgroundColor: alpha(C.amber, '0.15'),
+        borderColor: solid(C.amber),
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: data2023.map((v,i) => i === 0 ? solid(C.red) : (v <= 10 ? solid(C.green) : solid(C.amber))),
+        pointRadius: 5
+      },
+      {
+        label: 'Meta QAM (10 min)',
+        data: Array(12).fill(10),
+        borderColor: alpha(C.green, '0.6'),
+        borderWidth: 1.5,
+        borderDash: [6,4],
+        fill: false,
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, title: { display: true, text: 'Minutos', color: '#8b949e', font: {size:11, family:'Barlow'} } }
+    }
+  }
+});
+
+// =================== CHART: Reduction % ===================
+const baseVal = data2023[0];
+const reductionPct = data2023.map(v => Math.round((1 - v/baseVal)*100));
+new Chart(document.getElementById('chartReduction'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [{
+      label: '% Reducción vs Ene 2023',
+      data: reductionPct,
+      backgroundColor: alpha(C.green, '0.15'),
+      borderColor: solid(C.green),
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: solid(C.green),
+      pointRadius: 4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y,
+        min: 0, max: 100,
+        ticks: { callback: v => v+'%', color: '#8b949e', font: {family:'Barlow', size:11} }
+      }
+    }
+  }
+});
+
+// =================== CHART: Semestres ===================
+new Chart(document.getElementById('chartSemestres'), {
+  type: 'bar',
+  data: {
+    labels: ['Ene–Jun 2023\n(Con QAM arrancando)', 'Jul–Dic 2023\n(QAM maduro)'],
+    datasets: [{
+      label: 'Total minutos',
+      data: [
+        data2023.slice(0,6).reduce((a,b)=>a+b,0),
+        data2023.slice(6,12).reduce((a,b)=>a+b,0)
+      ],
+      backgroundColor: [alpha(C.amber,'0.8'), alpha(C.green,'0.8')],
+      borderColor: [solid(C.amber), solid(C.green)],
+      borderWidth: 1.5,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: { ...chartDefaults.plugins, legend: { display: false } },
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, title: { display: true, text: 'Minutos', color:'#8b949e', font:{size:11,family:'Barlow'} } }
+    }
+  }
+});
+
+// =================== CHART: Post QAM 2024-2026 ===================
+const labels2426 = [
+  ...months.map(m => m+' 24'),
+  ...months.map(m => m+' 25'),
+  ...['Ene','Feb','Mar','Abr','May'].map(m => m+' 26')
+];
+const vals2426 = [...data2024, ...data2025, ...data2026];
+
+new Chart(document.getElementById('chartPostQAM'), {
+  type: 'bar',
+  data: {
+    labels: labels2426,
+    datasets: [
+      {
+        label: 'Minutos de paro',
+        data: vals2426,
+        backgroundColor: vals2426.map(v => v > 10 ? alpha(C.amber,'0.8') : alpha(C.green,'0.8')),
+        borderColor: vals2426.map(v => v > 10 ? solid(C.amber) : solid(C.green)),
+        borderWidth: 1, borderRadius: 3
+      },
+      {
+        label: 'Meta QAM (10 min)',
+        data: Array(vals2426.length).fill(10),
+        type: 'line',
+        borderColor: alpha(C.amber,'0.5'),
+        borderWidth: 1.5,
+        borderDash: [5,4],
+        fill: false,
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y,
+        title: { display: true, text: 'Minutos', color:'#8b949e', font:{size:11,family:'Barlow'} }
+      }
+    }
+  }
+});
+
+// =================== CHART: Annual comparison ===================
+new Chart(document.getElementById('chartAnual'), {
+  type: 'bar',
+  data: {
+    labels: ['2022', '2023', '2024', '2025', '2026*'],
+    datasets: [{
+      label: 'Total minutos de paro',
+      data: [2142, 779, 72, 45, 18],
+      backgroundColor: [
+        alpha(C.red,'0.85'), alpha(C.amber,'0.85'),
+        alpha(C.green,'0.85'), alpha(C.teal,'0.85'),
+        alpha(C.blue,'0.85')
+      ],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      ...chartDefaults.plugins,
+      legend: { display: false },
+      tooltip: {
+        ...chartDefaults.plugins.tooltip,
+        callbacks: {
+          afterLabel: (ctx) => {
+            const base = 2142;
+            const pct = Math.round((1 - ctx.raw/base)*100);
+            return ctx.dataIndex === 0 ? '' : `↓ ${pct}% vs 2022`;
+          }
+        }
+      }
+    },
+    scales: {
+      ...chartDefaults.scales,
+      y: { ...chartDefaults.scales.y, title: { display: true, text: 'Minutos totales', color:'#8b949e', font:{size:11,family:'Barlow'} } }
+    }
+  }
+});
+
+// =================== CHART: Financial Impact ===================
+new Chart(document.getElementById('chartFinancial'), {
+  type: 'bar',
+  data: {
+    labels: ['2022\n(Costo perdido)', '2023\n(Ahorro)', '2024\n(Ahorro)', '2025\n(Ahorro)', '2026 YTD\n(Ahorro)'],
+    datasets: [{
+      label: 'USD estimado',
+      data: [2142*1400, 1363*1400, 2070*1400, 2097*1400, (2142-18/5*12)*1400],
+      backgroundColor: [
+        alpha(C.red,'0.85'), alpha(C.amber,'0.85'),
+        alpha(C.green,'0.85'), alpha(C.teal,'0.85'),
+        alpha(C.blue,'0.85')
+      ],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      ...chartDefaults.plugins,
+      legend: { display: false },
+      tooltip: {
+        ...chartDefaults.plugins.tooltip,
+        callbacks: {
+          label: (ctx) => {
+            const val = ctx.raw;
+            return ` $${(val/1000000).toFixed(2)}M USD`;
+          }
+        }
+      }
+    },
+    scales: {
+      ...chartDefaults.scales,
+      y: {
+        ...chartDefaults.scales.y,
+        ticks: {
+          callback: v => `$${(v/1000000).toFixed(1)}M`,
+          color:'#8b949e', font:{family:'Barlow',size:11}
+        },
+        title: { display: true, text: 'USD estimado', color:'#8b949e', font:{size:11,family:'Barlow'} }
+      }
+    }
+  }
+});
+
+// =================== TAB SWITCHING ===================
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  const tabs = ['overview','before','transition','after','qam'];
+  document.querySelectorAll('.tab')[tabs.indexOf(id)].classList.add('active');
+}
+</script>
+</body>
+</html>

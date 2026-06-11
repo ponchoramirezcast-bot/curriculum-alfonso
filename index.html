@@ -144,6 +144,9 @@
         .bullet i.star { color: var(--amber); font-size: 12px; }
         .bullet i.team { color: var(--blue-lt); font-size: 12px; }
         .logro-pill { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(90deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; color: #92400e; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 100px; letter-spacing: .03em; }
+        .logro-link { display: inline-flex; align-items: center; gap: 6px; background: var(--navy); color: #fff !important; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 100px; text-decoration: none; margin-left: 4px; transition: .2s; vertical-align: middle; }
+        .logro-link:hover { background: var(--blue); transform: translateY(-1px); }
+        .logro-link i { color: var(--amber-lt); font-size: 11px; }
         .metric-tag { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
 
         /* CERT GRID */
@@ -450,7 +453,7 @@
                         <span><span class="logro-pill"><i class="fas fa-trophy"></i> Logro Clave</span> Reducción de <strong>Downtime por falta de material de 89% a menos de 3 minutos por mes</strong>, mediante control estricto de abastecimiento JIT/JIS a líneas C5–C8 de alto volumen.</span>
                     </div>
                     <div class="bullet"><i class="fas fa-star star"></i>
-                        <span><span class="logro-pill"><i class="fas fa-trophy"></i> Iniciativa Propia</span> Diseño e implementación del <strong>Sistema QAM</strong> — escáner de detección de faltantes al ingreso de material a línea, impactando directamente reducción de Downtime y <span class="metric-tag">DPHU &lt; 3 uds/mes</span>.</span>
+                        <span><span class="logro-pill"><i class="fas fa-trophy"></i> Iniciativa Propia</span> Diseño e implementación del <strong>Sistema QAM</strong> — escáner de detección de faltantes al ingreso de material a línea, impactando directamente reducción de Downtime y <span class="metric-tag">DPHU &lt; 3 uds/mes</span>. <a href="qam-dashboard.html" class="logro-link" target="_blank"><i class="fas fa-chart-line"></i> Ver Dashboard</a></span>
                     </div>
                     <div class="bullet"><i class="fas fa-circle-check"></i><span>Administración integral de almacenes Estampado y D3: recibo, almacenamiento, control de hasta 1,400 SKUs activas y despacho a línea de producción automotriz.</span></div>
                     <div class="bullet"><i class="fas fa-circle-check"></i><span>Supervisión de subensambles, pre-picking y modulación de partes en zona B&amp;K para producción continua en líneas de alta cadencia C5–C8.</span></div>
@@ -866,7 +869,7 @@
                     date: 'Jul 2019 – May 2026', current: true,
                     bullets: [
                         { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Logro Clave</span> Reducción de <strong>Downtime por falta de material de 89% a menos de 3 minutos por mes</strong>, mediante control estricto de abastecimiento JIT/JIS a líneas C5–C8 de alto volumen.' },
-                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Iniciativa Propia</span> Diseño e implementación del <strong>Sistema QAM</strong> — escáner de detección de faltantes al ingreso de material a línea, impactando directamente reducción de Downtime y <span class="metric-tag">DPHU &lt; 3 uds/mes</span>.' },
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Iniciativa Propia</span> Diseño e implementación del <strong>Sistema QAM</strong> — escáner de detección de faltantes al ingreso de material a línea, impactando directamente reducción de Downtime y <span class="metric-tag">DPHU &lt; 3 uds/mes</span>. <a href="qam-dashboard.html" class="logro-link" target="_blank"><i class="fas fa-chart-line"></i> Ver Dashboard</a>' },
                         { icon: 'check', text: 'Administración integral de almacenes Estampado y D3: recibo, almacenamiento, control de hasta 1,400 SKUs activas y despacho a línea de producción automotriz.' },
                         { icon: 'check', text: 'Supervisión de subensambles, pre-picking y modulación de partes en zona B&amp;K para producción continua en líneas de alta cadencia C5–C8.' },
                         { icon: 'check', text: 'Monitoreo y mejora de KPIs críticos: <span class="metric-tag">Downtime</span> <span class="metric-tag">PPOF</span> <span class="metric-tag">DPHU</span>' },
@@ -1017,7 +1020,7 @@
                     date: 'Jul 2019 – May 2026', current: true,
                     bullets: [
                         { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Key Achievement</span> Reduced <strong>Downtime due to material shortage from 89% to less than 3 minutes per month</strong> through strict JIT/JIS supply control for high-volume C5–C8 lines.' },
-                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Own Initiative</span> Design and implementation of the <strong>QAM System</strong> — shortage detection scanner at line material intake, directly driving Downtime reduction and <span class="metric-tag">DPHU &lt; 3 units/month</span>.' },
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Own Initiative</span> Design and implementation of the <strong>QAM System</strong> — shortage detection scanner at line material intake, directly driving Downtime reduction and <span class="metric-tag">DPHU &lt; 3 units/month</span>. <a href="qam-dashboard.html" class="logro-link" target="_blank"><i class="fas fa-chart-line"></i> View Dashboard</a>' },
                         { icon: 'check', text: 'Full management of Stamping and D3 warehouses: receiving, storage, control of up to 1,400 active SKUs, and dispatching to the automotive production line.' },
                         { icon: 'check', text: 'Supervision of sub-assemblies, pre-picking, and parts modulation in B&amp;K zone for continuous production on high-cadence C5–C8 lines.' },
                         { icon: 'check', text: 'Monitoring and improvement of critical KPIs: <span class="metric-tag">Downtime</span> <span class="metric-tag">PPOF</span> <span class="metric-tag">DPHU</span>' },
