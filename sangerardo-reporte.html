@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Gestión 2021–2024 | San Gerardo Coto 16</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --verde: #0B6E4F;
+    --verde-mid: #1D9E75;
+    --verde-light: #D4EDE4;
+    --verde-pale: #F0F9F5;
+    --gold: #B8860B;
+    --gold-light: #FDF6E3;
+    --coral: #C0392B;
+    --coral-light: #FDEDEC;
+    --azul: #1A5276;
+    --azul-light: #EBF5FB;
+    --gris: #2C3E50;
+    --gris-mid: #7F8C8D;
+    --gris-light: #F4F6F7;
+    --blanco: #FFFFFF;
+    --sombra: 0 4px 24px rgba(11,110,79,0.10);
+    --radio: 16px;
+    --radio-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F7FAF8;
+    color: var(--gris);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #072E20 0%, #0B6E4F 60%, #1D9E75 100%);
+    color: white;
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; left: 30%;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #A8DFCA;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    color: white;
+  }
+  .header h1 span { color: #7EDBB8; }
+  .header-sub {
+    font-size: 17px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  .header-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .header-kpi {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: var(--radio);
+    padding: 20px 22px;
+    backdrop-filter: blur(8px);
+  }
+  .header-kpi-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .header-kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.1;
+  }
+  .header-kpi-delta {
+    font-size: 12px;
+    color: #7EDBB8;
+    margin-top: 4px;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: var(--verde);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-icon svg { width: 20px; height: 20px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gris);
+  }
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--gris-mid);
+    margin-top: 2px;
+  }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 28px 32px;
+    border: 1px solid rgba(11,110,79,0.08);
+  }
+
+  /* GRID CHARTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* METRIC CARDS */
+  .metric-card {
+    background: white;
+    border-radius: var(--radio);
+    padding: 22px 24px;
+    border: 1px solid rgba(11,110,79,0.08);
+    box-shadow: var(--sombra);
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--verde);
+  }
+  .metric-card.gold::before { background: var(--gold); }
+  .metric-card.coral::before { background: var(--coral); }
+  .metric-card.azul::before { background: var(--azul); }
+  .metric-label { font-size: 12px; color: var(--gris-mid); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 8px; }
+  .metric-value { font-size: 30px; font-weight: 700; color: var(--gris); line-height: 1; }
+  .metric-value.verde { color: var(--verde); }
+  .metric-value.gold { color: var(--gold); }
+  .metric-value.coral { color: var(--coral); }
+  .metric-delta { font-size: 13px; color: var(--verde-mid); margin-top: 6px; font-weight: 500; }
+  .metric-delta.neg { color: var(--coral); }
+
+  /* CHART CONTAINERS */
+  .chart-container { position: relative; }
+
+  /* ACHIEVEMENT BULLETS */
+  .achievements { display: flex; flex-direction: column; gap: 14px; }
+  .achievement {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 18px 20px;
+    background: var(--verde-pale);
+    border-radius: var(--radio-sm);
+    border-left: 4px solid var(--verde);
+    transition: transform 0.2s;
+  }
+  .achievement:hover { transform: translateX(4px); }
+  .achievement.gold-a {
+    background: var(--gold-light);
+    border-left-color: var(--gold);
+  }
+  .achievement.coral-a {
+    background: var(--coral-light);
+    border-left-color: var(--coral);
+  }
+  .achievement.azul-a {
+    background: var(--azul-light);
+    border-left-color: var(--azul);
+  }
+  .ach-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .ach-text { flex: 1; }
+  .ach-title { font-weight: 600; font-size: 15px; color: var(--gris); margin-bottom: 3px; }
+  .ach-desc { font-size: 14px; color: var(--gris-mid); line-height: 1.5; }
+  .ach-metric {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--verde);
+    background: white;
+    padding: 4px 10px;
+    border-radius: 100px;
+    display: inline-block;
+    margin-top: 6px;
+    border: 1px solid var(--verde-light);
+  }
+  .ach-metric.gold { color: var(--gold); border-color: #F0D080; }
+  .ach-metric.coral { color: var(--coral); border-color: #F5B7B1; }
+  .ach-metric.azul { color: var(--azul); border-color: #AED6F1; }
+
+  /* PROYECTOS TABLE */
+  .proj-table { width: 100%; border-collapse: collapse; }
+  .proj-table th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gris-mid);
+    font-weight: 600;
+    padding: 10px 16px;
+    border-bottom: 2px solid var(--verde-light);
+  }
+  .proj-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #F0F4F2;
+    vertical-align: middle;
+  }
+  .proj-table tr:last-child td { border-bottom: none; }
+  .proj-table tr:hover td { background: var(--verde-pale); }
+  .proj-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-completado { background: #D4EDE4; color: #0B6E4F; }
+  .badge-roi { background: #FDF6E3; color: #B8860B; }
+  .monto-grande { font-size: 15px; font-weight: 700; color: var(--gris); }
+
+  /* FINANCIERO TABLE */
+  .fin-table { width: 100%; border-collapse: collapse; }
+  .fin-table th {
+    text-align: right;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gris-mid);
+    font-weight: 600;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--verde-light);
+  }
+  .fin-table th:first-child { text-align: left; }
+  .fin-table td {
+    padding: 12px 14px;
+    font-size: 14px;
+    text-align: right;
+    border-bottom: 1px solid #F0F4F2;
+  }
+  .fin-table td:first-child { text-align: left; font-weight: 500; }
+  .fin-table tr.total td {
+    font-weight: 700;
+    font-size: 15px;
+    background: var(--verde-pale);
+    border-top: 2px solid var(--verde-light);
+    color: var(--verde);
+  }
+  .fin-table tr.total td:first-child { color: var(--gris); }
+  .fin-table .pos { color: var(--verde-mid); font-weight: 600; }
+  .fin-table .neg { color: var(--coral); font-weight: 600; }
+  .fin-table tr:hover td { background: #F7FAF8; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--gris);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+    margin-top: 24px;
+  }
+  .footer strong { color: white; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--verde-light), transparent);
+    margin: 40px 0;
+  }
+
+  /* LEGEND */
+  .chart-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--gris-mid); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+  /* AHORRO CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, #0B6E4F, #1D9E75);
+    color: white;
+    border-radius: var(--radio);
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .callout-icon { font-size: 40px; flex-shrink: 0; }
+  .callout-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .callout-desc { font-size: 14px; color: rgba(255,255,255,0.8); }
+  .callout-metric { font-size: 36px; font-weight: 900; color: #7EDBB8; flex-shrink: 0; text-align: right; }
+  .callout-metric small { display: block; font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 400; }
+
+  @media (max-width: 768px) {
+    .header { padding: 40px 24px 36px; }
+    .header h1 { font-size: 34px; }
+    .header-kpis { grid-template-columns: 1fr 1fr; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .container { padding: 32px 20px; }
+    .callout { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="header-badge">Informe Oficial de Gestión</div>
+    <h1>San Gerardo <span>Coto 16</span></h1>
+    <p class="header-sub">Reporte Ejecutivo de Administración · Ejercicios 2021 – 2024 · 121 Unidades</p>
+    <div class="header-kpis">
+      <div class="header-kpi">
+        <div class="header-kpi-label">Reserva Acumulada</div>
+        <div class="header-kpi-value">$125,604</div>
+        <div class="header-kpi-delta">↑ 243% vs inicio de gestión</div>
+      </div>
+      <div class="header-kpi">
+        <div class="header-kpi-label">Total Ingresos Gestionados</div>
+        <div class="header-kpi-value">$1.54M</div>
+        <div class="header-kpi-delta">2021–2024 acumulado</div>
+      </div>
+      <div class="header-kpi">
+        <div class="header-kpi-label">Proyectos Ejecutados</div>
+        <div class="header-kpi-value">4</div>
+        <div class="header-kpi-delta">$136,288 en infraestructura</div>
+      </div>
+      <div class="header-kpi">
+        <div class="header-kpi-label">Ahorro Energético Anual</div>
+        <div class="header-kpi-value">~$13,500</div>
+        <div class="header-kpi-delta">↓ 57% consumo eléctrico</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- LOGROS CLAVE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Logros de Gestión</div>
+        <div class="section-subtitle">Resultados documentados y medibles del período 2021–2024</div>
+      </div>
+    </div>
+    <div class="achievements">
+      <div class="achievement">
+        <div class="ach-icon">💰</div>
+        <div class="ach-text">
+          <div class="ach-title">Crecimiento sostenido de la reserva financiera</div>
+          <div class="ach-desc">Se incrementó el fondo de reserva del condominio de $36,629 a $125,604 en 3 ejercicios fiscales completos, generando excedentes positivos en cada año de gestión sin recurrir a cuotas extraordinarias de emergencia.</div>
+          <span class="ach-metric">+$88,975 · Crecimiento del 243%</span>
+        </div>
+      </div>
+      <div class="achievement gold-a">
+        <div class="ach-icon">☀️</div>
+        <div class="ach-text">
+          <div class="ach-title">Proyecto Lámparas Solares — retorno de inversión en 2 años</div>
+          <div class="ach-desc">Gestión y ejecución del proyecto de iluminación solar en agosto 2022 (proveedor D.S.P.P., $28,216). El gasto en energía eléctrica se redujo de $23,725 anuales a $10,180, generando un ahorro recurrente que recuperó la inversión en aproximadamente 24 meses.</div>
+          <span class="ach-metric gold">$13,545/año de ahorro · ROI ~24 meses</span>
+        </div>
+      </div>
+      <div class="achievement azul-a">
+        <div class="ach-icon">🔒</div>
+        <div class="ach-text">
+          <div class="ach-title">Modernización de seguridad: cámaras y portón eléctrico</div>
+          <div class="ach-desc">Implementación de sistema de cámaras de vigilancia (sep 2021, $19,943) y portón eléctrico automatizado (ago 2024, proveedor Pronics, $79,603 + cámara adicional $1,530). Ambos proyectos ejecutados con reserva propia, sin endeudamiento.</div>
+          <span class="ach-metric azul">$101,076 en seguridad · Sin deuda</span>
+        </div>
+      </div>
+      <div class="achievement">
+        <div class="ach-icon">🔧</div>
+        <div class="ach-text">
+          <div class="ach-title">Mantenimiento continuo de áreas comunes</div>
+          <div class="ach-desc">Gestión ininterrumpida de mantenimiento preventivo y correctivo de áreas comunes, jardinería y obra civil (drenaje caseta, $6,996 en 2022). Acumulado 2021–2024: más de $126,000 en mantenimiento y mejoras sin deterioro de la reserva.</div>
+          <span class="ach-metric">4 años de mantenimiento continuo</span>
+        </div>
+      </div>
+      <div class="achievement coral-a">
+        <div class="ach-icon">📊</div>
+        <div class="ach-text">
+          <div class="ach-title">Digitalización total de la administración financiera</div>
+          <div class="ach-desc">Transición de gestión manual a sistema CondoVive (sep 2021), logrando trazabilidad completa de ingresos, egresos y proyectos. Los estados de resultados mensuales se generan con desglose por proveedor y categoría, facilitando la rendición de cuentas ante la asamblea.</div>
+          <span class="ach-metric">100% digitalizado desde sept 2021</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- RESUMEN FINANCIERO ANUAL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Resumen Financiero Anual</div>
+        <div class="section-subtitle">Ingresos, egresos, flujo y saldo de cierre por ejercicio</div>
+      </div>
+    </div>
+    <div class="card">
+      <table class="fin-table">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>2021 *</th>
+            <th>2022</th>
+            <th>2023</th>
+            <th>2024</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Ingresos</td>
+            <td>$147,800</td>
+            <td>$436,353</td>
+            <td>$427,748</td>
+            <td>$524,814</td>
+          </tr>
+          <tr>
+            <td>Total Egresos</td>
+            <td>$147,632</td>
+            <td>$426,183</td>
+            <td>$367,734</td>
+            <td>$506,190</td>
+          </tr>
+          <tr>
+            <td>Flujo del Ejercicio</td>
+            <td class="pos">+$168</td>
+            <td class="pos">+$10,170</td>
+            <td class="pos">+$60,013</td>
+            <td class="pos">+$18,624</td>
+          </tr>
+          <tr class="total">
+            <td>Saldo Final</td>
+            <td>$36,630</td>
+            <td>$46,967</td>
+            <td>$106,980</td>
+            <td>$125,604</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px; color:var(--gris-mid); margin-top:14px; padding-top:14px; border-top:1px solid var(--verde-light);">* 2021: operación registrada a partir de septiembre, fecha de implementación del sistema CondoVive. Los meses anteriores se gestionaron en formato manual.</p>
+    </div>
+  </div>
+
+  <!-- GRÁFICAS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Análisis de Tendencias</div>
+        <div class="section-subtitle">Comportamiento financiero y energético del período</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:24px;">
+      <!-- Ingresos vs Egresos -->
+      <div class="card">
+        <div style="font-weight:600; font-size:15px; margin-bottom:14px; color:var(--gris);">Ingresos vs Egresos por Año</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75;"></div>Ingresos</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C0392B;"></div>Egresos</div>
+        </div>
+        <div class="chart-container" style="height:240px;">
+          <canvas id="chartIngEgr" role="img" aria-label="Ingresos y egresos 2021 a 2024">Ingresos: 147800, 436353, 427748, 524814. Egresos: 147632, 426183, 367734, 506190.</canvas>
+        </div>
+      </div>
+
+      <!-- Saldo Final -->
+      <div class="card">
+        <div style="font-weight:600; font-size:15px; margin-bottom:14px; color:var(--gris);">Crecimiento de la Reserva Financiera</div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0B6E4F; border-radius:50%;"></div>Saldo de cierre</div>
+        </div>
+        <div class="chart-container" style="height:240px;">
+          <canvas id="chartSaldo" role="img" aria-label="Saldo final 2021 a 2024">2021: 36630, 2022: 46967, 2023: 106980, 2024: 125604</canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Energía Eléctrica -->
+    <div class="card">
+      <div style="font-weight:600; font-size:15px; margin-bottom:6px; color:var(--gris);">Gasto en Energía Eléctrica — Impacto del Proyecto Solar</div>
+      <div style="font-size:13px; color:var(--gris-mid); margin-bottom:14px;">La instalación de lámparas solares en agosto 2022 redujo el gasto eléctrico en un 57%</div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#B8860B;"></div>Gasto eléctrico anual</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1D9E75; border-radius:50%;"></div>Línea de tendencia</div>
+      </div>
+      <div class="chart-container" style="height:220px;">
+        <canvas id="chartEnergia" role="img" aria-label="Gasto energía eléctrica 2021 a 2024">2021: 8672, 2022: 23725 (pico pre-solar), 2023: 12290, 2024: 10180</canvas>
+      </div>
+    </div>
+
+    <!-- Callout ROI Solar -->
+    <div class="callout">
+      <div class="callout-icon">☀️</div>
+      <div style="flex:1;">
+        <div class="callout-title">Retorno de Inversión — Proyecto Lámparas Solares</div>
+        <div class="callout-desc">Inversión de $28,216 en agosto 2022 · Ahorro promedio de $13,545/año · Payback period aproximado de 25 meses · La inversión ya generó retorno positivo desde inicios de 2025</div>
+      </div>
+      <div class="callout-metric">
+        $27,090
+        <small>ahorro acumulado<br>2023–2024</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PROYECTOS DE INFRAESTRUCTURA -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Bitácora de Proyectos e Inversiones</div>
+        <div class="section-subtitle">Infraestructura ejecutada con recursos propios del condominio</div>
+      </div>
+    </div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table class="proj-table">
+        <thead>
+          <tr>
+            <th>Año</th>
+            <th>Proyecto</th>
+            <th>Proveedor</th>
+            <th>Inversión</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sep 2021</strong></td>
+            <td>🎥 Instalación sistema de cámaras de vigilancia</td>
+            <td style="color:var(--gris-mid);">—</td>
+            <td class="monto-grande">$19,943</td>
+            <td><span class="proj-badge badge-completado">✓ Completado</span></td>
+          </tr>
+          <tr>
+            <td><strong>Ago 2022</strong></td>
+            <td>☀️ Proyecto lámparas solares (iluminación áreas comunes)</td>
+            <td style="color:var(--gris-mid);">D.S.P.P.</td>
+            <td class="monto-grande">$28,216</td>
+            <td><span class="proj-badge badge-roi">★ ROI ~24 meses</span></td>
+          </tr>
+          <tr>
+            <td><strong>Ago 2022</strong></td>
+            <td>🔧 Obra de drenaje caseta de vigilancia</td>
+            <td style="color:var(--gris-mid);">—</td>
+            <td class="monto-grande">$6,996</td>
+            <td><span class="proj-badge badge-completado">✓ Completado</span></td>
+          </tr>
+          <tr>
+            <td><strong>Ago 2024</strong></td>
+            <td>🚪 Portón eléctrico automatizado + cámara adicional</td>
+            <td style="color:var(--gris-mid);">Pronics</td>
+            <td class="monto-grande">$81,133</td>
+            <td><span class="proj-badge badge-completado">✓ Completado</span></td>
+          </tr>
+          <tr style="background:var(--verde-pale);">
+            <td colspan="3" style="font-weight:700; color:var(--gris); font-size:15px; padding:16px 16px;">Total Invertido en Infraestructura 2021–2024</td>
+            <td style="font-weight:900; color:var(--verde); font-size:18px; padding:16px 16px;">$136,288</td>
+            <td style="padding:16px 16px;"><span class="proj-badge badge-completado">4 proyectos</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ESTRUCTURA DE GASTOS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Distribución de Gastos 2024</div>
+        <div class="section-subtitle">Composición del egreso del ejercicio más reciente</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div style="font-weight:600; font-size:15px; margin-bottom:14px; color:var(--gris);">Gastos Fijos vs Variables 2024</div>
+        <div class="chart-container" style="height:260px;">
+          <canvas id="chartDonut" role="img" aria-label="Distribución de gastos fijos y variables 2024">Gastos fijos: 468193. Gastos variables: 37998.</canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-weight:600; font-size:15px; margin-bottom:20px; color:var(--gris);">Principales Rubros de Gasto 2024</div>
+        <div class="chart-container" style="height:260px;">
+          <canvas id="chartRubros" role="img" aria-label="Principales rubros de gasto 2024">Vigilancia: 282000. Administracion: 102240. Basura: 24375. Sueldos: 12674. Energia: 10180. Software: 16758. Agua: 5534. Telefono: 6279.</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Condominio San Gerardo Coto 16</strong> · 121 Unidades · Aguascalientes, México<br>
+  Administración: José Alfonso Ramírez Castañeda · Período 2021–2024<br>
+  <span style="font-size:11px; margin-top:6px; display:block;">Documento generado con datos del sistema CondoVive · Información confidencial para uso interno de la asamblea de condóminos</span>
+</div>
+
+<script>
+const años = ['2021*','2022','2023','2024'];
+
+// Chart 1: Ingresos vs Egresos
+new Chart(document.getElementById('chartIngEgr'), {
+  type: 'bar',
+  data: {
+    labels: años,
+    datasets: [
+      { label: 'Ingresos', data: [147800,436353,427748,524814], backgroundColor: '#1D9E75', borderRadius: 6, borderSkipped: false },
+      { label: 'Egresos', data: [147632,426183,367734,506190], backgroundColor: '#E8A09A', borderRadius: 6, borderSkipped: false }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => '$' + (v/1000).toFixed(0)+'k', font:{size:11} }, grid: { color:'rgba(0,0,0,0.05)' } },
+      x: { ticks: { font:{size:12} }, grid: { display:false } }
+    }
+  }
+});
+
+// Chart 2: Saldo Final
+new Chart(document.getElementById('chartSaldo'), {
+  type: 'line',
+  data: {
+    labels: años,
+    datasets: [{
+      label: 'Saldo final',
+      data: [36630,46967,106980,125604],
+      borderColor: '#0B6E4F',
+      backgroundColor: 'rgba(11,110,79,0.08)',
+      pointBackgroundColor: '#0B6E4F',
+      pointRadius: 7, pointHoverRadius: 9,
+      fill: true, tension: 0.35, borderWidth: 2.5
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => '$'+(v/1000).toFixed(0)+'k', font:{size:11} }, grid:{color:'rgba(0,0,0,0.05)'} },
+      x: { ticks:{font:{size:12}}, grid:{display:false} }
+    }
+  }
+});
+
+// Chart 3: Energía eléctrica
+new Chart(document.getElementById('chartEnergia'), {
+  type: 'bar',
+  data: {
+    labels: años,
+    datasets: [
+      {
+        label: 'Gasto eléctrico',
+        data: [8672,23725,12290,10180],
+        backgroundColor: ['#F0D080','#C0392B','#1D9E75','#1D9E75'],
+        borderRadius: 6, borderSkipped: false
+      },
+      {
+        label: 'Tendencia',
+        data: [8672,23725,12290,10180],
+        type: 'line',
+        borderColor: '#0B6E4F',
+        backgroundColor: 'transparent',
+        pointBackgroundColor: '#0B6E4F',
+        pointRadius: 5, borderWidth: 2,
+        tension: 0.3
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          afterLabel: (ctx) => {
+            if(ctx.dataIndex === 1 && ctx.datasetIndex === 0) return '⚠ Pico previo a instalación solar';
+            if(ctx.dataIndex === 2 && ctx.datasetIndex === 0) return '✓ Post-instalación solar';
+            return '';
+          }
+        }
+      }
+    },
+    scales: {
+      y: { ticks:{callback: v=>'$'+(v/1000).toFixed(1)+'k', font:{size:11}}, grid:{color:'rgba(0,0,0,0.05)'}},
+      x: { ticks:{font:{size:12}}, grid:{display:false} }
+    }
+  }
+});
+
+// Chart 4: Donut gastos fijos vs variables
+new Chart(document.getElementById('chartDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Gastos Fijos (92.5%)', 'Gastos Variables (7.5%)'],
+    datasets: [{
+      data: [468193, 37998],
+      backgroundColor: ['#0B6E4F','#B8860B'],
+      borderWidth: 0,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true, position: 'bottom',
+        labels: { font:{size:12}, padding:16, usePointStyle:true }
+      }
+    },
+    cutout: '62%'
+  }
+});
+
+// Chart 5: Rubros de gasto horizontal
+new Chart(document.getElementById('chartRubros'), {
+  type: 'bar',
+  data: {
+    labels: ['Vigilancia','Administración','Software','Basura','Sueldos','Teléfono','Energía','Agua'],
+    datasets: [{
+      label: 'Monto 2024',
+      data: [282000,102240,16758,24375,12674,6279,10180,5534],
+      backgroundColor: ['#0B6E4F','#C0392B','#1D9E75','#1A5276','#7F8C8D','#B8860B','#E8A09A','#AED6F1'],
+      borderRadius: 4, borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false} },
+    scales: {
+      x: { ticks:{callback: v=>'$'+(v/1000).toFixed(0)+'k', font:{size:10}}, grid:{color:'rgba(0,0,0,0.05)'} },
+      y: { ticks:{font:{size:11}}, grid:{display:false} }
+    }
+  }
+});
+</script>
+</body>
+</html>
