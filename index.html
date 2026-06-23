@@ -406,6 +406,11 @@
                 <div class="edu-inst">Instituto Tecnológico de Aguascalientes</div>
                 <div class="edu-year">Generación 2001 – 2005</div>
             </div>
+            <div class="edu-item">
+                <div class="edu-title">Profesional Técnico en Control de Calidad</div>
+                <div class="edu-inst">CONALEP Plantel AGS 1</div>
+                <div class="edu-year">1998 – 2001</div>
+            </div>
             <div class="edu-item amber">
                 <div class="edu-title">Data Science &amp; AI — En formación</div>
                 <div class="edu-inst amber">Autodidacta + Plataformas Online</div>
@@ -588,7 +593,30 @@
         </div>
     </div>
 
-    <!-- 4. Seguridad Industrial -->
+    <!-- 4. Prácticas Profesionales -->
+    <div class="card fade-up">
+        <h2 class="section-title" id="sec-prac"><i class="fas fa-flask"></i> Prácticas Profesionales</h2>
+        <div class="timeline" id="prac-timeline">
+            <div class="job">
+                <div class="job-dot"></div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Practicante de Ingeniería Industrial</div>
+                        <div class="job-company">Fundición Inyectada de Centro — Departamento de Producción</div>
+                    </div>
+                    <div class="job-date">2004 – 2005</div>
+                </div>
+                <div class="job-body">
+                    <div class="bullet"><i class="fas fa-star" style="color:var(--amber)"></i><span><span class="logro-pill"><i class="fas fa-trophy"></i> Proyecto de Titulación</span> Desarrollo e implementación de <strong>estándares de producción</strong> mediante estudio de tiempos y ciclos de operación, migrando el esquema de pago a destajo hacia un sistema con control de productividad por operación.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Levantamiento y análisis de tiempos ciclo por operación para definir la cantidad esperada de piezas por turno/operador.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Diseño de estándares de producción que permitieron implementar un sistema de medición y control de la productividad operacional.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Aplicación de metodologías de ingeniería industrial en entorno de manufactura real — base del tema de titulación profesional.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Seguridad Industrial -->
     <div class="card fade-up">
         <h2 class="section-title" id="sec-safety"><i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad</h2>
         <div style="margin-bottom:14px;">
@@ -785,6 +813,7 @@
             secEdu: '<i class="fas fa-graduation-cap"></i> Educación',
             secProfile: '<i class="fas fa-user-tie"></i> Perfil Profesional',
             secExp: '<i class="fas fa-briefcase"></i> Experiencia Profesional',
+            secPrac: '<i class="fas fa-flask"></i> Prácticas Profesionales',
             secSafety: '<i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad',
             secCerts: '<i class="fas fa-certificate"></i> Certificaciones',
             secProjects: '<i class="fas fa-laptop-code"></i> Proyectos Tecnológicos Desarrollados',
@@ -825,6 +854,7 @@
             secEdu: '<i class="fas fa-graduation-cap"></i> Education',
             secProfile: '<i class="fas fa-user-tie"></i> Professional Profile',
             secExp: '<i class="fas fa-briefcase"></i> Professional Experience',
+            secPrac: '<i class="fas fa-flask"></i> Professional Internship',
             secSafety: '<i class="fas fa-hard-hat"></i> Industrial Safety &amp; Compliance',
             secCerts: '<i class="fas fa-certificate"></i> Certifications',
             secProjects: '<i class="fas fa-laptop-code"></i> Tech Projects Built',
@@ -858,7 +888,21 @@
             // Education
             edu: [
                 { title: 'Lic. en Ingeniería Industrial', inst: 'Instituto Tecnológico de Aguascalientes', year: 'Generación 2001 – 2005', amber: false },
+                { title: 'Profesional Técnico en Control de Calidad', inst: 'CONALEP Plantel AGS 1', year: '1998 – 2001', amber: false },
                 { title: 'Data Science &amp; AI — En formación', inst: 'Autodidacta + Plataformas Online', year: '2024 – Presente', amber: true }
+            ],
+            internships: [
+                {
+                    title: 'Practicante de Ingeniería Industrial',
+                    company: 'Fundición Inyectada de Centro — Departamento de Producción',
+                    date: '2004 – 2005',
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Proyecto de Titulación</span> Desarrollo e implementación de <strong>estándares de producción</strong> mediante estudio de tiempos y ciclos de operación, migrando el esquema de pago a destajo hacia un sistema con control de productividad por operación.' },
+                        { icon: 'check', text: 'Levantamiento y análisis de tiempos ciclo por operación para definir la cantidad esperada de piezas por turno/operador.' },
+                        { icon: 'check', text: 'Diseño de estándares de producción que permitieron implementar un sistema de medición y control de la productividad operacional.' },
+                        { icon: 'check', text: 'Aplicación de metodologías de ingeniería industrial en entorno de manufactura real — base del tema de titulación profesional.' }
+                    ]
+                }
             ],
             // Jobs
             jobs: [
@@ -1010,7 +1054,21 @@
             <span class="highlight">measurable efficiency and competitive advantage</span>.`,
             edu: [
                 { title: 'B.S. in Industrial Engineering', inst: 'Instituto Tecnológico de Aguascalientes', year: 'Class of 2001 – 2005', amber: false },
+                { title: 'Technical Degree in Quality Control', inst: 'CONALEP Plantel AGS 1', year: '1998 – 2001', amber: false },
                 { title: 'Data Science &amp; AI — In training', inst: 'Self-taught + Online Platforms', year: '2024 – Present', amber: true }
+            ],
+            internships: [
+                {
+                    title: 'Industrial Engineering Intern',
+                    company: 'Fundición Inyectada de Centro — Production Department',
+                    date: '2004 – 2005',
+                    bullets: [
+                        { icon: 'star', text: '<span class="logro-pill"><i class="fas fa-trophy"></i> Graduation Project</span> Development and implementation of <strong>production standards</strong> through time and cycle study per operation, transitioning from a piecework payment scheme to a standardized productivity control system.' },
+                        { icon: 'check', text: 'Cycle time measurement and analysis per operation to define expected output per operator/shift.' },
+                        { icon: 'check', text: 'Design of production standards enabling a measurable productivity tracking and control system.' },
+                        { icon: 'check', text: 'Application of industrial engineering methodologies in a real manufacturing environment — foundation of the professional graduation thesis.' }
+                    ]
+                }
             ],
             jobs: [
                 {
@@ -1206,6 +1264,7 @@
         document.getElementById('sec-edu').innerHTML = t.secEdu;
         document.getElementById('sec-profile').innerHTML = t.secProfile;
         document.getElementById('sec-exp').innerHTML = t.secExp;
+        document.getElementById('sec-prac').innerHTML = t.secPrac;
         document.getElementById('sec-safety').innerHTML = t.secSafety;
         document.getElementById('sec-certs').innerHTML = t.secCerts;
         document.getElementById('sec-projects').innerHTML = t.secProjects;
@@ -1241,6 +1300,22 @@
 
         // Jobs
         document.getElementById('timeline').innerHTML = c.jobs.map(buildJob).join('');
+
+        // Internships
+        document.getElementById('prac-timeline').innerHTML = c.internships.map(p => `
+            <div class="job">
+                <div class="job-dot"></div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">${p.title}</div>
+                        <div class="job-company">${p.company}</div>
+                    </div>
+                    <div class="job-date">${p.date}</div>
+                </div>
+                <div class="job-body">
+                    ${p.bullets.map(b => buildBullet(b)).join('')}
+                </div>
+            </div>`).join('');
 
         // Achievements
         document.getElementById('logros-grid').innerHTML = c.achievements.map(a =>
