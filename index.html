@@ -613,6 +613,23 @@
                     <div class="bullet"><i class="fas fa-circle-check"></i><span>Aplicación de metodologías de ingeniería industrial en entorno de manufactura real — base del tema de titulación profesional.</span></div>
                 </div>
             </div>
+            <div class="job">
+                <div class="job-dot"></div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Practicante de Control de Calidad</div>
+                        <div class="job-company">Leche San Marcos — Departamento de Control de Calidad</div>
+                        <div class="job-sub">Prácticas correspondientes a Profesional Técnico en Control de Calidad · CONALEP</div>
+                    </div>
+                    <div class="job-date">2001</div>
+                </div>
+                <div class="job-body">
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Inspección y <strong>liberación de lotes de producción</strong> de jugos y yogurt conforme a especificaciones de calidad.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Inspección de <strong>materia prima</strong> (leche) y materiales de empaque para verificación de calidad e inocuidad.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span><strong>Auditoría de trazabilidad de lotes</strong> — seguimiento de materiales desde recepción hasta producto terminado.</span></div>
+                    <div class="bullet"><i class="fas fa-circle-check"></i><span>Revisión y control de <strong>caducidades</strong> en producto terminado y materias primas.</span></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -902,6 +919,18 @@
                         { icon: 'check', text: 'Diseño de estándares de producción que permitieron implementar un sistema de medición y control de la productividad operacional.' },
                         { icon: 'check', text: 'Aplicación de metodologías de ingeniería industrial en entorno de manufactura real — base del tema de titulación profesional.' }
                     ]
+                },
+                {
+                    title: 'Practicante de Control de Calidad',
+                    company: 'Leche San Marcos — Departamento de Control de Calidad',
+                    sub: 'Prácticas correspondientes a Profesional Técnico en Control de Calidad · CONALEP',
+                    date: '2001',
+                    bullets: [
+                        { icon: 'check', text: 'Inspección y <strong>liberación de lotes de producción</strong> de jugos y yogurt conforme a especificaciones de calidad.' },
+                        { icon: 'check', text: 'Inspección de <strong>materia prima</strong> (leche) y materiales de empaque para verificación de calidad e inocuidad.' },
+                        { icon: 'check', text: '<strong>Auditoría de trazabilidad de lotes</strong> — seguimiento de materiales desde recepción hasta producto terminado.' },
+                        { icon: 'check', text: 'Revisión y control de <strong>caducidades</strong> en producto terminado y materias primas.' }
+                    ]
                 }
             ],
             // Jobs
@@ -1067,6 +1096,18 @@
                         { icon: 'check', text: 'Cycle time measurement and analysis per operation to define expected output per operator/shift.' },
                         { icon: 'check', text: 'Design of production standards enabling a measurable productivity tracking and control system.' },
                         { icon: 'check', text: 'Application of industrial engineering methodologies in a real manufacturing environment — foundation of the professional graduation thesis.' }
+                    ]
+                },
+                {
+                    title: 'Quality Control Intern',
+                    company: 'Leche San Marcos — Quality Control Department',
+                    sub: 'Internship for Technical Degree in Quality Control · CONALEP',
+                    date: '2001',
+                    bullets: [
+                        { icon: 'check', text: 'Inspection and <strong>batch release</strong> of juice and yogurt production lots per quality specifications.' },
+                        { icon: 'check', text: 'Inspection of <strong>raw materials</strong> (milk) and packaging materials for quality and food safety compliance.' },
+                        { icon: 'check', text: '<strong>Lot traceability auditing</strong> — tracking materials from incoming receipt through finished product.' },
+                        { icon: 'check', text: 'Review and control of <strong>expiration dates</strong> on finished goods and raw materials.' }
                     ]
                 }
             ],
@@ -1309,6 +1350,7 @@
                     <div>
                         <div class="job-title">${p.title}</div>
                         <div class="job-company">${p.company}</div>
+                        ${p.sub ? `<div class="job-sub">${p.sub}</div>` : ''}
                     </div>
                     <div class="job-date">${p.date}</div>
                 </div>
