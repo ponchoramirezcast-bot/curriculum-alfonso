@@ -158,6 +158,26 @@
         .cert-item.green { background: #f0fdf4; border-color: #bbf7d0; }
         .cert-item.green i { color: #16a34a; }
 
+        /* GALERÍA RECONOCIMIENTOS */
+        .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+        .rec-card { border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0; cursor: pointer; transition: transform .2s, box-shadow .2s; background: #fff; }
+        .rec-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(29,78,216,.15); }
+        .rec-card img { width: 100%; height: 160px; object-fit: cover; object-position: top; display: block; }
+        .rec-card-label { font-size: 11px; font-weight: 600; color: var(--slate); padding: 8px 10px 9px; line-height: 1.4; background: #f8fafc; border-top: 1px solid #e2e8f0; }
+        .rec-card-label strong { display: block; color: var(--navy); font-size: 12px; }
+        /* LIGHTBOX */
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(11,22,40,.92); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+        .lightbox.open { display: flex; }
+        .lightbox-inner { position: relative; max-width: 900px; width: 100%; }
+        .lightbox img { width: 100%; border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,.5); max-height: 85vh; object-fit: contain; }
+        .lightbox-close { position: absolute; top: -16px; right: -16px; width: 36px; height: 36px; background: var(--amber); border: none; border-radius: 50%; font-size: 18px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; line-height: 1; }
+        .lightbox-prev, .lightbox-next { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); color: #fff; font-size: 20px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+        .lightbox-prev { left: -52px; }
+        .lightbox-next { right: -52px; }
+        .lightbox-prev:hover, .lightbox-next:hover { background: var(--amber); }
+        .lightbox-caption { text-align: center; color: rgba(255,255,255,.8); font-size: 13px; margin-top: 12px; }
+        @media (max-width: 640px) { .lightbox-prev { left: 4px; } .lightbox-next { right: 4px; } }
+
         /* PROYECTOS */
         .project-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; position: relative; overflow: hidden; transition: .25s; }
         .project-card:last-child { margin-bottom: 0; }
@@ -740,7 +760,53 @@
         </div>
     </div>
 
-    <!-- 7. Logros Destacados -->
+    <!-- 7. Reconocimientos -->
+    <div class="card fade-up">
+        <h2 class="section-title" id="sec-rec"><i class="fas fa-medal"></i> Reconocimientos &amp; Certificados</h2>
+        <div class="rec-grid">
+            <div class="rec-card" onclick="openLightbox(0)">
+                <img src="reconocimientos/rec1.jpg" alt="Reconocimiento COMPAS 2023" loading="lazy">
+                <div class="rec-card-label"><strong>COMPAS · Ago 2023</strong>Dedicación y control del Flujo de Materiales</div>
+            </div>
+            <div class="rec-card" onclick="openLightbox(1)">
+                <img src="reconocimientos/rec2.jpg" alt="Reconocimiento COMPAS Jul 2023" loading="lazy">
+                <div class="rec-card-label"><strong>COMPAS · Jul 2023</strong>Reducción de Downtime y Daños a Wipper</div>
+            </div>
+            <div class="rec-card" onclick="openLightbox(2)">
+                <img src="reconocimientos/rec3.jpg" alt="Reconocimiento COMPAS Hot Calls 2022" loading="lazy">
+                <div class="rec-card-label"><strong>COMPAS · Sep 2022</strong>Hot Calls Digital — Reducción de partes de alto costo</div>
+            </div>
+            <div class="rec-card" onclick="openLightbox(3)">
+                <img src="reconocimientos/rec4.jpg" alt="Certificado Kaizen COMPAS 2025" loading="lazy">
+                <div class="rec-card-label"><strong>COMPAS · Nov 2025</strong>Certificado Herramientas de Kaizen Nivel Básico</div>
+            </div>
+            <div class="rec-card" onclick="openLightbox(4)">
+                <img src="reconocimientos/rec5.jpg" alt="Reconocimiento Nissan 2018" loading="lazy">
+                <div class="rec-card-label"><strong>Nissan · Jun 2018</strong>Cero Diferencias en Inventario de Partes</div>
+            </div>
+            <div class="rec-card" onclick="openLightbox(5)">
+                <img src="reconocimientos/rec6.jpg" alt="Constancia Liderazgo Morgan 2021" loading="lazy">
+                <div class="rec-card-label"><strong>Morgan Consultores · Sep 2021</strong>Seminario de Liderazgo para Supervisores · 80 hrs</div>
+            </div>
+            <div class="rec-card" onclick="openLightbox(6)">
+                <img src="reconocimientos/rec7.jpg" alt="Reconocimiento Nissan Powertrain 2016" loading="lazy">
+                <div class="rec-card-label"><strong>Nissan Powertrain · Sep 2016</strong>Mejora de Abasto con Picking desde Almacén</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+        <div class="lightbox-inner">
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+            <button class="lightbox-prev" onclick="moveLightbox(-1)">&#8249;</button>
+            <button class="lightbox-next" onclick="moveLightbox(1)">&#8250;</button>
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- 8. Logros Destacados -->
     <div class="card fade-up">
         <h2 class="section-title" id="sec-achiev"><i class="fas fa-trophy"></i> Logros Destacados</h2>
         <div class="logros-grid" id="logros-grid">
@@ -842,6 +908,7 @@
             secSafety: '<i class="fas fa-hard-hat"></i> Seguridad Industrial &amp; Normatividad',
             secCerts: '<i class="fas fa-certificate"></i> Certificaciones',
             secProjects: '<i class="fas fa-laptop-code"></i> Proyectos Tecnológicos Desarrollados',
+            secRec: '<i class="fas fa-medal"></i> Reconocimientos &amp; Certificados',
             secAchiev: '<i class="fas fa-trophy"></i> Logros Destacados',
             secSkills: '<i class="fas fa-cogs"></i> Habilidades Técnicas',
             secTags: '<i class="fas fa-tags"></i> Competencias Clave',
@@ -883,6 +950,7 @@
             secSafety: '<i class="fas fa-hard-hat"></i> Industrial Safety &amp; Compliance',
             secCerts: '<i class="fas fa-certificate"></i> Certifications',
             secProjects: '<i class="fas fa-laptop-code"></i> Tech Projects Built',
+            secRec: '<i class="fas fa-medal"></i> Awards &amp; Certificates',
             secAchiev: '<i class="fas fa-trophy"></i> Key Achievements',
             secSkills: '<i class="fas fa-cogs"></i> Technical Skills',
             secTags: '<i class="fas fa-tags"></i> Core Competencies',
@@ -1317,6 +1385,7 @@
         document.getElementById('sec-safety').innerHTML = t.secSafety;
         document.getElementById('sec-certs').innerHTML = t.secCerts;
         document.getElementById('sec-projects').innerHTML = t.secProjects;
+        document.getElementById('sec-rec').innerHTML = t.secRec;
         document.getElementById('sec-achiev').innerHTML = t.secAchiev;
         document.getElementById('sec-skills').innerHTML = t.secSkills;
         document.getElementById('sec-tags').innerHTML = t.secTags;
@@ -1392,6 +1461,41 @@
     }
 
     // ─── END LANGUAGE TOGGLE ───────────────────────────────────────────────────
+
+    // ─── LIGHTBOX ─────────────────────────────────────────────────────────────
+    const recData = [
+        { src: 'reconocimientos/rec1.jpg', caption: 'COMPAS · Ago 2023 — Dedicación y control del Flujo de Materiales' },
+        { src: 'reconocimientos/rec2.jpg', caption: 'COMPAS · Jul 2023 — Reducción de Downtime y Daños a Wipper' },
+        { src: 'reconocimientos/rec3.jpg', caption: 'COMPAS · Sep 2022 — Hot Calls Digital, reducción de partes de alto costo' },
+        { src: 'reconocimientos/rec4.jpg', caption: 'COMPAS · Nov 2025 — Certificado Herramientas de Kaizen Nivel Básico' },
+        { src: 'reconocimientos/rec5.jpg', caption: 'Nissan · Jun 2018 — Cero Diferencias en Inventario de Partes' },
+        { src: 'reconocimientos/rec6.jpg', caption: 'Morgan Consultores · Sep 2021 — Seminario de Liderazgo para Supervisores, 80 hrs' },
+        { src: 'reconocimientos/rec7.jpg', caption: 'Nissan Powertrain · Sep 2016 — Mejora de Abasto con Picking desde Almacén' }
+    ];
+    let currentRec = 0;
+    function openLightbox(i) {
+        currentRec = i;
+        document.getElementById('lightbox-img').src = recData[i].src;
+        document.getElementById('lightbox-caption').textContent = recData[i].caption;
+        document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function closeLightboxOnBg(e) { if (e.target === document.getElementById('lightbox')) closeLightbox(); }
+    function moveLightbox(dir) {
+        currentRec = (currentRec + dir + recData.length) % recData.length;
+        openLightbox(currentRec);
+    }
+    document.addEventListener('keydown', e => {
+        if (!document.getElementById('lightbox').classList.contains('open')) return;
+        if (e.key === 'ArrowRight') moveLightbox(1);
+        if (e.key === 'ArrowLeft') moveLightbox(-1);
+        if (e.key === 'Escape') closeLightbox();
+    });
+    // ─── END LIGHTBOX ─────────────────────────────────────────────────────────
 
     // Fade-up animation
     const fadeObs = new IntersectionObserver((entries) => {
