@@ -72,6 +72,12 @@
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, #1a3a6e 100%);
             position: relative; overflow: hidden; padding: 52px 0 64px;
         }
+        header::after {
+            content: ''; position: absolute; inset: 0;
+            background: url('header-bg.jpg') center/cover no-repeat;
+            opacity: 0.18; z-index: 0;
+        }
+        header > * { position: relative; z-index: 1; }
         header::before {
             content: ''; position: absolute; inset: 0;
             background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(59,130,246,.18) 0%, transparent 70%);
